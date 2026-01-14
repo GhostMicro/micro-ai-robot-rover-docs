@@ -1,0 +1,24 @@
+site_name: Micro AI Robot Rover
+site_description: เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: cyan
+  font:
+    text: Sarabun
+    code: Roboto Mono
+
+nav:
+  - หน้าแรก (Home): index.md
+  - ภาพรวมและฮาร์ดแวร์ (Overview): overview.md
+  - คู่มือการต่อสาย (Wiring Guide): wiring_guide_v2.md
+  - Transmitter Hardware (รีโมท): transmitter_setup.md
+  - การสร้างสมองและโค้ด (Brain Setup): brain_setup.md
+  - การสร้างร่างกาย (Body Setup): body_assembly.md
+  - Next.js Dashboard Guide: dashboard_guide.md
+  - มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards): industrial_standards.md
+  - คู่มือออกแบบวงจร (Fritzing Setup): fritzing_setup.md
+  - สรุปและกิตติกรรมประกาศ (Summary): summary.md
+  - อ้างอิงและผู้สนับสนุน (References): references.md
