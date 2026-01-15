@@ -27,8 +27,8 @@
 ### B. STM32 Brain (Main Controller)
 | Component | Pin | STM32 Pin | Note |
 | :--- | :--- | :--- | :--- |
-| **ESP32 Link** | TX1 | PA9 | Connect to ESP32 RX2 |
-| | RX1 | PA10 | Connect to ESP32 TX2 |
+| **ESP32 Link** | TX2 | PB10 | **[MOVED]** Connect to ESP32 RX2 |
+| (Serial3) | RX2 | PB11 | **[MOVED]** Connect to ESP32 TX2 |
 | **Micro SD** | CS | PA4 | **[NEW]** Chip Select |
 | (SPI1) | SCK | PA5 | **[NEW]** Clock |
 | | MISO | PA6 | **[NEW]** |
