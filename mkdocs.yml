@@ -13,7 +13,7 @@ theme:
 nav:
   - หน้าแรก (Home): index.md
   - ภาพรวมและฮาร์ดแวร์ (Overview): overview.md
-  - คู่มือการต่อสาย (Wiring Guide): wiring_guide_v3.md
+  - คู่มือการต่อสาย (Wiring Guide): wiring_guide_v4.md
   - Transmitter Hardware (รีโมท): transmitter_setup.md
   - การสร้างสมองและโค้ด (Brain Setup): brain_setup.md
   - การสร้างร่างกาย (Body Setup): body_assembly.md
