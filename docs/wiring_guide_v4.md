@@ -35,16 +35,44 @@ No change in wiring. Just acts as a bridge.
 | | MISO | PA6 | **SPI1** Data In |
 | | MOSI | PA7 | **SPI1** Data Out |
 
-#### 2. Motion & Effect
+#### 4. Advanced Electronics & Stability (Professional Grade)
+To ensure long-term stability and protection, add these discrete components:
+
+**A. Power Conditioning (Filter Noise)**
+*   **Electrolytic Capacitor (100µF - 470µF 16V):** Place across valid `+5V` and `GND` rails (at entry point).
+*   **Ceramic Capacitor (0.1µF / Code 104):** Place close to **every** module's VCC/GND (ESP32, STM32, OLED) to filter high-frequency noise.
+*   **Diode (1N4001):** Series with Main Battery (+) for Reverse Polarity Protection.
+
+**B. Buzzer Driver Circuit (Loud & Safe)**
+Do not connect Buzzer directly to MCU Pin. Use a Transistor switch:
+*   **NPN Transistor (BC547 / 2N3904):**
+    *   **Collector (C):** To Buzzer (-) -> Buzzer (+) to 5V.
+    *   **Emitter (E):** To GND.
+    *   **Base (B):** Via **1kΩ Resistor** to STM32 Pin PB0.
+*   **Flyback Diode (1N4148):** Connect across Buzzer terminals (Cathode to +5V) to absorb spikes.
+
+**C. Motor Noise Suppression**
+*   **Ceramic Cap (0.1µF / 104):** Solder directly across the terminals of each DC motor to reduce RF interference.
+
+**D. Logic Level Converter (Discrete Option)**
+If not using a module, build a voltage divider for **5V TX -> 3.3V RX**:
+*   **R1 (2.2kΩ):** Signal 5V -> STM32 RX.
+*   **R2 (3.3kΩ):** STM32 RX -> GND.
+*(Note: For 3.3V TX -> 5V RX, direct connection is usually safe enough for logic high, or use a 2N7000 MOSFET).*
 | Component | Pin | STM32 Pin | Note |
 | :--- | :--- | :--- | :--- |
-| **Motors** | L-PWM | PA0 | Left Motor Speed |
-| | L-DIR | PA1 | Left Motor Dir |
-| | R-PWM | PA2 | Right Motor Speed |
-| | R-DIR | PA3 | Right Motor Dir |
+| **LLC (Level Shift)** | HV | 5V | To Nano 5V |
+| (3.3V <-> 5V) | LV | 3.3V | To STM32 3.3V |
+| | GND | GND | Common Ground |
+| **Nano Link** | TX2 | PA2 | **Serial 2 TX** -> LLC -> Nano RX |
+| (via LLC) | RX2 | PA3 | **Serial 2 RX** -> LLC -> Nano TX |
+
+#### 3. Motion & Effect (Direct)
+| Component | Pin | STM32 Pin | Note |
+| :--- | :--- | :--- | :--- |
 | **Buzzer** | I/O | PB0 | PWM Speaker (Sound FX) |
-| **NeoPixel** | DIN | PA8 | **[NEW]** Status LED Eye (WS2812) |
-| **Head Servo** | SIG | PB1 | **[NEW]** Pan Servo (Scanner) |
+| **NeoPixel** | DIN | PA8 | Status LED Eye (WS2812) |
+| **Head Servo** | SIG | PB1 | Pan Servo (Scanner) |
 
 #### 3. Perception (Sensors)
 | Component | Pin | STM32 Pin | Note |
