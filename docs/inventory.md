@@ -41,6 +41,14 @@ This document serves as a database of available components to ensure future desi
 | **MC14011BCP** | Quad 2-Input NAND Gate | Basic logic glue, Debounce circuit, Oscillator. |
 | **MC14029BCP** | Presettable Up/Down Counter | Hardware event counting. |
 
+## 📟 Displays & Human Interface
+| Component | Description | Application |
+| :--- | :--- | :--- |
+| **4-Digit 7-Segment** | Numeric LED | Show Battery Level (%), Countdown Timer, or Error Codes (e.g., "E-01"). |
+| **LCD 1604 / 1602** | Character LCD | Display Status Logs ("System Ready", "Mode: Scout"). Retro Look! |
+| **V/A Panel Meter** | Digital Meter | **Real-time Voltage & Current** monitoring (Hardware Dashboard). Mount on Robot chassis. |
+| **Switches** | Toggle / Rocker | **Main Power Cut-off.** Essential for safety. |
+
 ## ⚡ Diodes & Protection
 | Part Number | Type | Max Current | Use Case |
 | :--- | :--- | :--- | :--- |
