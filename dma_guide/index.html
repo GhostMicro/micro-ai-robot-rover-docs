@@ -1,0 +1,1886 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)">
+      
+      
+      
+      
+        <link rel="prev" href="../inventory/">
+      
+      
+        <link rel="next" href="../dma_implementation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>DMA Performance Guide - Micro AI Robot Rover</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Sarabun";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dma-direct-memory-access-performance-optimization-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Micro AI Robot Rover" class="md-header__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micro AI Robot Rover
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DMA Performance Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micro AI Robot Rover" class="md-nav__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micro AI Robot Rover
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก (Home)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ภาพรวมและฮาร์ดแวร์ (Overview)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_guide_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือการต่อสาย - Wiring Guide (v4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_layer_wiring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 What is DMA?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 What is DMA?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-method-without-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional Method (Without DMA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dma-method-with-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DMA Method (With DMA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-for-ghost-micro-robot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Benefits for Ghost Micro Robot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-dma-works-simple-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 How DMA Works (Simple Explanation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 How DMA Works (Simple Explanation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-dma-you-do-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Without DMA (You do everything):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dma-assistant-helps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With DMA (Assistant helps):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dma-on-stm32-technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 DMA on STM32 (Technical Details)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 DMA on STM32 (Technical Details)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stm32f103-dma-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STM32F103 DMA Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Performance Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Performance Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-scenario-receiving-100-sensor-packetssecond" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Scenario: Receiving 100 sensor packets/second
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-in-ghost-micro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Implementation in Ghost Micro
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Implementation in Ghost Micro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serial2-nano-communication-dma-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serial2 (Nano Communication) - DMA Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serial3-esp32-communication-dma-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serial3 (ESP32 Communication) - DMA Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Important Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Important Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-buffer-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Buffer Size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-circular-vs-normal-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Circular vs Normal Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-memory-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Memory Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected-performance-gains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Expected Performance Gains
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 Expected Performance Gains">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-dma-current-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before DMA (Current Firmware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-dma-optimized-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After DMA (Optimized Firmware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 When to Use DMA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 When to Use DMA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-dma-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Use DMA for:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dont-use-dma-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Don't use DMA for:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v4.0 (3-Tier)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_v4_complete/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_circuit_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Circuit Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_budget_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Budget Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_commander_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Commander Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_recording_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Recording Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_control_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Control Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32cam_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Programming Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_camera_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Camera Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transmitter_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmitter Hardware (รีโมท)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brain_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../body_assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างร่างกาย (Body Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next.js Dashboard Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../industrial_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fritzing_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือออกแบบวงจร (Fritzing Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    สรุปและกิตติกรรมประกาศ (Summary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    อ้างอิงและผู้สนับสนุน (References)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 What is DMA?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 What is DMA?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-method-without-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional Method (Without DMA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dma-method-with-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DMA Method (With DMA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-for-ghost-micro-robot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Benefits for Ghost Micro Robot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-dma-works-simple-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 How DMA Works (Simple Explanation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 How DMA Works (Simple Explanation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-dma-you-do-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Without DMA (You do everything):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-dma-assistant-helps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With DMA (Assistant helps):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dma-on-stm32-technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 DMA on STM32 (Technical Details)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 DMA on STM32 (Technical Details)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stm32f103-dma-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STM32F103 DMA Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Performance Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Performance Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-scenario-receiving-100-sensor-packetssecond" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Scenario: Receiving 100 sensor packets/second
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-in-ghost-micro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Implementation in Ghost Micro
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Implementation in Ghost Micro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serial2-nano-communication-dma-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serial2 (Nano Communication) - DMA Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serial3-esp32-communication-dma-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serial3 (ESP32 Communication) - DMA Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ Important Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Important Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-buffer-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Buffer Size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-circular-vs-normal-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Circular vs Normal Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-memory-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Memory Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected-performance-gains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Expected Performance Gains
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 Expected Performance Gains">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-dma-current-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before DMA (Current Firmware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-dma-optimized-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After DMA (Optimized Firmware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-dma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 When to Use DMA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 When to Use DMA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-dma-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Use DMA for:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dont-use-dma-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Don't use DMA for:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dma-direct-memory-access-performance-optimization-guide">DMA (Direct Memory Access) - Performance Optimization Guide</h1>
+<h2 id="what-is-dma">🎯 What is DMA?</h2>
+<p><strong>DMA (Direct Memory Access)</strong> is a hardware feature that allows peripherals (like UART, SPI, I2C) to transfer data <strong>directly to/from memory</strong> without involving the CPU.</p>
+<h3 id="traditional-method-without-dma">Traditional Method (Without DMA)</h3>
+<pre><code>Sensor → UART → Interrupt → CPU reads byte → Store in buffer → Repeat
+         ↑                      ↓
+         └──────── CPU Busy ────┘
+</code></pre>
+<p><strong>Problem:</strong> CPU must handle <strong>every single byte</strong> that arrives. This wastes CPU cycles.</p>
+<h3 id="dma-method-with-dma">DMA Method (With DMA)</h3>
+<pre><code>Sensor → UART → DMA Controller → Memory Buffer (automatic)
+                      ↑
+                      └── CPU is FREE to do other tasks!
+</code></pre>
+<p><strong>Benefit:</strong> CPU only gets interrupted when the <strong>entire message</strong> is received, not for every byte.</p>
+<hr />
+<h2 id="benefits-for-ghost-micro-robot">🚀 Benefits for Ghost Micro Robot</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Aspect</th>
+<th style="text-align: left;">Without DMA</th>
+<th style="text-align: left;">With DMA</th>
+<th style="text-align: left;">Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>CPU Usage</strong></td>
+<td style="text-align: left;">~30-40% (handling Serial)</td>
+<td style="text-align: left;">~5-10%</td>
+<td style="text-align: left;"><strong>3-4x less CPU load</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Response Time</strong></td>
+<td style="text-align: left;">~10-20ms</td>
+<td style="text-align: left;">~2-5ms</td>
+<td style="text-align: left;"><strong>2-4x faster</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sensor Sampling</strong></td>
+<td style="text-align: left;">Limited by Serial overhead</td>
+<td style="text-align: left;">Can run at full speed</td>
+<td style="text-align: left;"><strong>Higher sensor rate</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Stability</strong></td>
+<td style="text-align: left;">May miss bytes under load</td>
+<td style="text-align: left;">Guaranteed delivery</td>
+<td style="text-align: left;"><strong>More reliable</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="how-dma-works-simple-explanation">🧠 How DMA Works (Simple Explanation)</h2>
+<p>Think of DMA like a <strong>"Smart Assistant"</strong>:</p>
+<h3 id="without-dma-you-do-everything">Without DMA (You do everything):</h3>
+<ol>
+<li>Phone rings → You answer</li>
+<li>Person says one word → You write it down</li>
+<li>Phone rings again → You answer</li>
+<li>Repeat 100 times for a 100-word message</li>
+<li><strong>You're exhausted!</strong></li>
+</ol>
+<h3 id="with-dma-assistant-helps">With DMA (Assistant helps):</h3>
+<ol>
+<li>Phone rings → Assistant answers</li>
+<li>Assistant writes down the <strong>entire message</strong></li>
+<li>Assistant taps your shoulder: "Message ready!"</li>
+<li>You read the complete message once</li>
+<li><strong>You have energy for other tasks!</strong></li>
+</ol>
+<hr />
+<h2 id="dma-on-stm32-technical-details">🔧 DMA on STM32 (Technical Details)</h2>
+<h3 id="stm32f103-dma-channels">STM32F103 DMA Channels</h3>
+<p>The STM32F103 (Blue Pill) has <strong>2 DMA controllers</strong> with <strong>12 channels total</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">DMA</th>
+<th style="text-align: left;">Channel</th>
+<th style="text-align: left;">Peripheral</th>
+<th style="text-align: left;">Ghost Micro Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">DMA1</td>
+<td style="text-align: left;">Channel 5</td>
+<td style="text-align: left;">USART1_RX</td>
+<td style="text-align: left;">(Reserved for USB Debug)</td>
+</tr>
+<tr>
+<td style="text-align: left;">DMA1</td>
+<td style="text-align: left;">Channel 6</td>
+<td style="text-align: left;">USART2_RX</td>
+<td style="text-align: left;"><strong>Nano Communication (RX)</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">DMA1</td>
+<td style="text-align: left;">Channel 7</td>
+<td style="text-align: left;">USART2_TX</td>
+<td style="text-align: left;"><strong>Nano Communication (TX)</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">DMA1</td>
+<td style="text-align: left;">Channel 3</td>
+<td style="text-align: left;">USART3_RX</td>
+<td style="text-align: left;"><strong>ESP32 Communication (RX)</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">DMA1</td>
+<td style="text-align: left;">Channel 2</td>
+<td style="text-align: left;">USART3_TX</td>
+<td style="text-align: left;"><strong>ESP32 Communication (TX)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="performance-comparison">📊 Performance Comparison</h2>
+<h3 id="test-scenario-receiving-100-sensor-packetssecond">Test Scenario: Receiving 100 sensor packets/second</h3>
+<p><strong>Without DMA:</strong></p>
+<pre><code>CPU Time per packet: 200μs (interrupt overhead)
+Total CPU time: 200μs × 100 = 20,000μs = 20ms/sec = 20% CPU
+</code></pre>
+<p><strong>With DMA:</strong></p>
+<pre><code>CPU Time per packet: 50μs (DMA callback only)
+Total CPU time: 50μs × 100 = 5,000μs = 5ms/sec = 5% CPU
+</code></pre>
+<p><strong>Result:</strong> <strong>15% CPU freed up</strong> for sensors, motor control, and AI logic!</p>
+<hr />
+<h2 id="implementation-in-ghost-micro">🛠️ Implementation in Ghost Micro</h2>
+<h3 id="serial2-nano-communication-dma-setup">Serial2 (Nano Communication) - DMA Setup</h3>
+<pre><code class="language-cpp">// RX Buffer (DMA writes here automatically)
+uint8_t dmaRxBuffer[32];
+
+// DMA Interrupt fires when buffer is full
+void DMA1_Channel6_IRQHandler() {
+    if (DMA_GetITStatus(DMA1_IT_TC6)) {
+        // Process received data
+        processNanoCommand(dmaRxBuffer);
+        DMA_ClearITPendingBit(DMA1_IT_TC6);
+    }
+}
+</code></pre>
+<h3 id="serial3-esp32-communication-dma-setup">Serial3 (ESP32 Communication) - DMA Setup</h3>
+<pre><code class="language-cpp">// RX Buffer for ESP32 data
+uint8_t esp32RxBuffer[16];
+
+// DMA Interrupt fires when Payload is complete
+void DMA1_Channel3_IRQHandler() {
+    if (DMA_GetITStatus(DMA1_IT_TC3)) {
+        // Process ESP32 command
+        memcpy(&amp;remoteData, esp32RxBuffer, sizeof(Payload));
+        DMA_ClearITPendingBit(DMA1_IT_TC3);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="important-considerations">⚠️ Important Considerations</h2>
+<h3 id="1-buffer-size">1. Buffer Size</h3>
+<ul>
+<li><strong>Too Small:</strong> DMA will interrupt too often (defeats the purpose)</li>
+<li><strong>Too Large:</strong> Wastes RAM</li>
+<li><strong>Optimal:</strong> Match your packet size (e.g., 16 bytes for Payload struct)</li>
+</ul>
+<h3 id="2-circular-vs-normal-mode">2. Circular vs Normal Mode</h3>
+<ul>
+<li><strong>Normal Mode:</strong> DMA stops after filling buffer once (good for fixed-size packets)</li>
+<li><strong>Circular Mode:</strong> DMA wraps around buffer (good for continuous streaming)</li>
+</ul>
+<p><strong>Ghost Micro uses:</strong> <strong>Normal Mode</strong> (we have fixed Payload structs)</p>
+<h3 id="3-memory-alignment">3. Memory Alignment</h3>
+<ul>
+<li>DMA works best with <strong>word-aligned</strong> buffers (addresses divisible by 4)</li>
+<li>Use <code>__attribute__((aligned(4)))</code> for buffers</li>
+</ul>
+<hr />
+<h2 id="expected-performance-gains">📈 Expected Performance Gains</h2>
+<h3 id="before-dma-current-firmware">Before DMA (Current Firmware)</h3>
+<ul>
+<li><strong>CPU Load:</strong> ~35% (Serial handling + Motor control)</li>
+<li><strong>Max Sensor Rate:</strong> ~50 Hz (IMU limited by CPU)</li>
+<li><strong>Response Latency:</strong> ~15ms (joystick to motor)</li>
+</ul>
+<h3 id="after-dma-optimized-firmware">After DMA (Optimized Firmware)</h3>
+<ul>
+<li><strong>CPU Load:</strong> ~15% (DMA handles Serial automatically)</li>
+<li><strong>Max Sensor Rate:</strong> ~200 Hz (CPU freed up for sensors)</li>
+<li><strong>Response Latency:</strong> ~5ms (faster processing)</li>
+</ul>
+<hr />
+<h2 id="when-to-use-dma">🎓 When to Use DMA</h2>
+<h3 id="use-dma-for">✅ <strong>Use DMA for:</strong></h3>
+<ul>
+<li>High-speed Serial communication (UART, SPI, I2C)</li>
+<li>ADC sampling (reading multiple sensors)</li>
+<li>PWM generation (smooth motor control)</li>
+<li>Memory-to-memory transfers</li>
+</ul>
+<h3 id="dont-use-dma-for">❌ <strong>Don't use DMA for:</strong></h3>
+<ul>
+<li>Infrequent events (button presses)</li>
+<li>Very small data transfers (1-2 bytes)</li>
+<li>Simple GPIO toggling</li>
+</ul>
+<hr />
+<h2 id="further-reading">🔗 Further Reading</h2>
+<ul>
+<li><a href="https://www.st.com/resource/en/reference_manual/cd00171190.pdf">STM32 DMA Reference Manual</a> (Chapter 10)</li>
+<li><a href="https://www.embedded.com/dma-vs-interrupts/">DMA vs Interrupts Comparison</a></li>
+<li><a href="https://www.youtube.com/watch?v=3brOzLJmeek">STM32 DMA Tutorial (Video)</a></li>
+</ul>
+<hr />
+<h2 id="summary">📝 Summary</h2>
+<p><strong>DMA is like hiring a smart assistant</strong> to handle repetitive tasks (Serial communication) so the CPU (you) can focus on important decisions (sensor fusion, motor control, AI).</p>
+<p><strong>For Ghost Micro:</strong>
+- <strong>3x less CPU load</strong> on Serial communication
+- <strong>2-4x faster</strong> response time
+- <strong>4x higher</strong> sensor sampling rate
+- <strong>More stable</strong> operation under heavy load</p>
+<p><strong>Next Step:</strong> Implement DMA in <code>stm32_brain/main.cpp</code> for Serial2 and Serial3! 🚀</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

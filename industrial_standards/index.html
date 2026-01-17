@@ -1,0 +1,1317 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)">
+      
+      
+      
+      
+        <link rel="prev" href="../dashboard_guide/">
+      
+      
+        <link rel="next" href="../fritzing_setup/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards) - Micro AI Robot Rover</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Sarabun";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#industrial-grade-robotics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Micro AI Robot Rover" class="md-header__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micro AI Robot Rover
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micro AI Robot Rover" class="md-nav__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micro AI Robot Rover
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก (Home)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ภาพรวมและฮาร์ดแวร์ (Overview)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_guide_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือการต่อสาย - Wiring Guide (v4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_layer_wiring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v4.0 (3-Tier)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_v4_complete/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_circuit_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Circuit Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_budget_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Budget Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_commander_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Commander Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_recording_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Recording Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_control_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Control Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32cam_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Programming Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_camera_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Camera Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transmitter_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmitter Hardware (รีโมท)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brain_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../body_assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างร่างกาย (Body Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next.js Dashboard Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-industrial-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. การสื่อสารระหว่างบอร์ด (Industrial Communication)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ระบบที่ต้องมีตามมาตรฐาน (System Architecture)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. ระบบที่ต้องมีตามมาตรฐาน (System Architecture)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-hardware-control-layer-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Hardware &amp; Control Layer (Low-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-brain-intelligence-layer-mid-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Brain &amp; Intelligence Layer (Mid-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-monitoring-interface-high-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Monitoring &amp; Interface (High-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-standard-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. มาตรฐานสากลที่ต้องคำนึงถึง (Standard &amp; Compliance)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ตัวอย่าง Stack แนะนำ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. ตัวอย่าง Stack แนะนำ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raspberry-pi-4b-phase-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 กลยุทธ์การอัปเกรดเป็น Raspberry Pi 4B (Phase 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ข้อแนะนำเพิ่มเติมสำหรับการขยายผล
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fritzing_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือออกแบบวงจร (Fritzing Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    สรุปและกิตติกรรมประกาศ (Summary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    อ้างอิงและผู้สนับสนุน (References)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-industrial-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. การสื่อสารระหว่างบอร์ด (Industrial Communication)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ระบบที่ต้องมีตามมาตรฐาน (System Architecture)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. ระบบที่ต้องมีตามมาตรฐาน (System Architecture)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-hardware-control-layer-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Hardware &amp; Control Layer (Low-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-brain-intelligence-layer-mid-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Brain &amp; Intelligence Layer (Mid-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-monitoring-interface-high-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Monitoring &amp; Interface (High-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-standard-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. มาตรฐานสากลที่ต้องคำนึงถึง (Standard &amp; Compliance)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ตัวอย่าง Stack แนะนำ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. ตัวอย่าง Stack แนะนำ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raspberry-pi-4b-phase-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 กลยุทธ์การอัปเกรดเป็น Raspberry Pi 4B (Phase 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ข้อแนะนำเพิ่มเติมสำหรับการขยายผล
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="industrial-grade-robotics">มาตรฐานหุ่นยนต์ระดับอุตสาหกรรม (Industrial Grade Robotics)</h1>
+<p>การสร้างหุ่นยนต์ระดับมาตรฐานอุตสาหกรรม (Industrial Grade) มีความต่างจากหุ่นยนต์ต้นแบบหรือ DIY อย่างมาก โดยเน้นไปที่ <strong>ความเสถียร (Reliability)</strong>, <strong>ความปลอดภัย (Safety)</strong> และ <strong>การบำรุงรักษา (Maintainability)</strong></p>
+<p>ในฐานะที่โครงการนี้ใช้ <strong>Ubuntu 24.04</strong> และมีความเชี่ยวชาญด้าน <strong>TypeScript/Next.js</strong> เราสามารถประยุกต์ใช้ทักษะเหล่านี้ในส่วนของระบบควบคุมระดับบน (High-level Control) ได้ดังนี้:</p>
+<hr />
+<h2 id="1-industrial-communication">1. การสื่อสารระหว่างบอร์ด (Industrial Communication)</h2>
+<p>ในอุตสาหกรรมจะไม่ใช้สายไฟจัมเปอร์ทั่วไป แต่จะใช้โปรโตคอลที่ทนทานต่อสัญญาณรบกวน (EMI):</p>
+<ul>
+<li><strong>EtherCAT:</strong> เป็นมาตรฐานสูงสุดในปัจจุบันสำหรับแขนกลและเครื่องจักรที่ต้องการความเร็วสูงและ Real-time สูงมาก</li>
+<li><strong>CAN bus (Controller Area Network):</strong> มาตรฐานเดียวกับที่ใช้ในรถยนต์ (มักใช้โปรโตคอล <strong>CANopen</strong>) เหมาะสำหรับเชื่อมต่อระหว่างบอร์ดควบคุมมอเตอร์ (Motor Drivers)</li>
+<li><strong>Modbus TCP/RTU:</strong> มาตรฐานคลาสสิกสำหรับเชื่อมต่อกับ Sensor หรือ PLC (Programmable Logic Controller)</li>
+<li><strong>Ethernet/IP:</strong> ใช้สำหรับการส่งข้อมูลจำนวนมากระหว่างหุ่นยนต์กับระบบบริหารจัดการ (MES/ERP)</li>
+</ul>
+<hr />
+<h2 id="2-system-architecture">2. ระบบที่ต้องมีตามมาตรฐาน (System Architecture)</h2>
+<p>หุ่นยนต์อุตสาหกรรมมักแบ่งระบบออกเป็น Layer ดังนี้:</p>
+<h3 id="a-hardware-control-layer-low-level">A. Hardware &amp; Control Layer (Low-level)</h3>
+<ul>
+<li><strong>Safety Controller:</strong> แยกส่วนจากตัวควบคุมหลัก ทำหน้าที่ตัดไฟ (E-Stop) เมื่อเกิดเหตุฉุกเฉินตามมาตรฐาน <strong>ISO 13849-1</strong></li>
+<li><strong>Motor Drivers (Servo/Stepper):</strong> ต้องเป็นเกรดอุตสาหกรรมที่รองรับโปรโตคอลข้างต้น (เช่น ClearPath, Delta, หรือ ODrive Pro)</li>
+<li><strong>Power Management:</strong> มีระบบป้องกันไฟกระชาก (Surge Protection) และการแยกกราวด์ (Isolation)</li>
+</ul>
+<h3 id="b-brain-intelligence-layer-mid-level">B. Brain &amp; Intelligence Layer (Mid-level)</h3>
+<ul>
+<li><strong>Embedded PC / IPC (Industrial PC):</strong> ใช้คอมพิวเตอร์ที่ทนความร้อนและแรงสั่นสะเทือน (เช่น Advantech หรือ Intel NUC เกรดอุตสาหกรรม) รันบน <strong>Ubuntu LTS</strong></li>
+<li><strong>Middleware (ROS 2):</strong> <strong>ROS 2 (Robot Operating System)</strong> คือมาตรฐานอุตสาหกรรมในปัจจุบัน (แนะนำเวอร์ชัน <strong>Humble</strong> หรือใหม่กว่าบน Ubuntu 24.04)</li>
+<li>ใช้ <strong>DDS (Data Distribution Service)</strong> เป็นหัวใจในการสื่อสารข้อมูลภายในหุ่นยนต์</li>
+</ul>
+<h3 id="c-monitoring-interface-high-level">C. Monitoring &amp; Interface (High-level)</h3>
+<ul>
+<li><strong>HMI (Human Machine Interface):</strong> นี่คือส่วนที่สามารถใช้ <strong>Next.js และ TypeScript</strong> ได้อย่างเต็มที่!</li>
+<li>สร้าง Dashboard บน Web Browser เพื่อควบคุมและดูสถานะหุ่นยนต์</li>
+<li>ใช้ <strong>WebSockets</strong> หรือ <strong>gRPC-web</strong> เพื่อดึงข้อมูล Real-time จาก ROS 2 มาแสดงผล</li>
+</ul>
+<hr />
+<h2 id="3-standard-compliance">3. มาตรฐานสากลที่ต้องคำนึงถึง (Standard &amp; Compliance)</h2>
+<p>หากต้องการให้หุ่นยนต์ใช้งานได้ในระดับสากล ต้องผ่านเกณฑ์เหล่านี้:</p>
+<ol>
+<li><strong>ISO 10218-1/2:</strong> มาตรฐานความปลอดภัยสำหรับหุ่นยนต์อุตสาหกรรม</li>
+<li><strong>ISO/TS 15066:</strong> สำหรับหุ่นยนต์ที่ทำงานร่วมกับมนุษย์ (Cobots)</li>
+<li><strong>CE Marking:</strong> สำหรับตลาดในยุโรป</li>
+</ol>
+<hr />
+<h2 id="4-stack">4. ตัวอย่าง Stack แนะนำ</h2>
+<table>
+<thead>
+<tr>
+<th>ส่วนประกอบ</th>
+<th>เทคโนโลยีที่แนะนำ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High-level Brain</strong></td>
+<td><strong>Raspberry Pi 4B (4GB)</strong> - รัน ROS 2 / Vision / Dashboard</td>
+</tr>
+<tr>
+<td><strong>Low-level Control</strong></td>
+<td><strong>STM32</strong> - คุมมอเตอร์และลำดับความสำคัญ (Real-time)</td>
+</tr>
+<tr>
+<td><strong>OS</strong></td>
+<td>Ubuntu 24.04 LTS (Real-time Kernel) บน RPi</td>
+</tr>
+<tr>
+<td><strong>Robot Middleware</strong></td>
+<td>ROS 2 Humble</td>
+</tr>
+<tr>
+<td><strong>Communication</strong></td>
+<td>Serial/CAN ระหว่าง RPi และ STM32</td>
+</tr>
+<tr>
+<td><strong>Language Logic</strong></td>
+<td>Python/C++ (Brain), <strong>TypeScript (HMI)</strong></td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>PostgreSQL (เก็บข้อมูล Telemetry)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="raspberry-pi-4b-phase-2">🧠 กลยุทธ์การอัปเกรดเป็น Raspberry Pi 4B (Phase 2)</h3>
+<p>หากคุณกังวลเรื่องขนาดและราคา แนะนำให้ทำเป็น <strong>"Modular Brain"</strong> ดังนี้ครับ:</p>
+<ol>
+<li><strong>Phase 1 (Micro-Controller Base):</strong> ใช้ ESP32 + STM32 ตามแผนปัจจุบันให้หุ่นยนต์วิ่งได้นิ่งและปลอดภัยที่สุดก่อน (Body &amp; Motion)</li>
+<li><strong>Phase 2 (Mission Control):</strong> เมื่อระบบพื้นฐานนิ่งแล้ว ค่อยนำ Raspberry Pi 4B มา "เทิร์น" แปะไว้ที่หัวหุ่นเพื่อทำหน้าที่พิเศษ:<ul>
+<li><strong>Computer Vision:</strong> ประมวลผลภาพจากกล้องระดับสูง (Object Detection)</li>
+<li><strong>SLAM Mapping:</strong> ใช้ Lidar สแกนแผนที่ในโรงงาน/บ้าน</li>
+<li><strong>Local Web Server:</strong> รัน Next.js Dashboard บนตัวหุ่นเพื่อให้เข้าถึงจากเครื่องไหนก็ได้ผ่านวง WiFi</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="_1">ข้อแนะนำเพิ่มเติมสำหรับการขยายผล</h3>
+<ul>
+<li><strong>Video Streaming:</strong> ประยุกต์ใช้ <strong>WebRTC</strong> เพื่อสตรีมวิดีโอจากกล้องหุ่นยนต์มายัง Dashboard ด้วยความดีเลย์ต่ำมาก (Ultra-low latency)</li>
+<li><strong>Data Management:</strong> การใช้ <strong>Prisma</strong> จัดการ PostgreSQL สำหรับเก็บพิกัดหรือแผนที่ (Maps) ของหุ่นยนต์จะช่วยให้ระบบจัดการข้อมูลหลังบ้านปลอดภัยและเสถียรตามมาตรฐานอุตสาหกรรม</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

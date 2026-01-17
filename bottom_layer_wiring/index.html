@@ -1,0 +1,1842 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)">
+      
+      
+      
+      
+        <link rel="prev" href="../wiring_guide_v4/">
+      
+      
+        <link rel="next" href="../inventory/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Bottom Layer (Drive) - Micro AI Robot Rover</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Sarabun";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ghost-micro-bottom-layer-wiring-drive-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Micro AI Robot Rover" class="md-header__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micro AI Robot Rover
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bottom Layer (Drive)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micro AI Robot Rover" class="md-nav__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micro AI Robot Rover
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก (Home)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ภาพรวมและฮาร์ดแวร์ (Overview)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_guide_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือการต่อสาย - Wiring Guide (v4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wiring Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-wiring-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical Wiring Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pin-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pin Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pin Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-pinout-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano Pinout Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-l298n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano → L298N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-stm32-brain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano ↔ STM32 Brain
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arduino Nano ↔ STM32 Brain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-solutions-keep-maximum-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Recommended Solutions (Keep Maximum Speed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#l298n-motors-4wd-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L298N → Motors (4WD Configuration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-system-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power System Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Power System Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motor-battery-dedicated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motor Battery (Dedicated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logic-power-shared-from-brain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logic Power (Shared from Brain)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-separate-motor-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Separate Motor Power?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fire-protection-circuit-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Fire Protection Circuit (CRITICAL!)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Fire Protection Circuit (CRITICAL!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fuse-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fuse Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reverse-polarity-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reverse Polarity Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-flyback-diodes-already-in-l298n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Flyback Diodes (Already in L298N)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-capacitors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Capacitors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ground-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v4.0 (3-Tier)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_v4_complete/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_circuit_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Circuit Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_budget_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Budget Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_commander_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Commander Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_recording_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Recording Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_control_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Control Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32cam_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Programming Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_camera_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Camera Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transmitter_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmitter Hardware (รีโมท)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brain_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../body_assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างร่างกาย (Body Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next.js Dashboard Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../industrial_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fritzing_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือออกแบบวงจร (Fritzing Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    สรุปและกิตติกรรมประกาศ (Summary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    อ้างอิงและผู้สนับสนุน (References)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring Diagram
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wiring Diagram">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-wiring-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical Wiring Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pin-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pin Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pin Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-pinout-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano Pinout Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-l298n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano → L298N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-nano-stm32-brain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arduino Nano ↔ STM32 Brain
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arduino Nano ↔ STM32 Brain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-solutions-keep-maximum-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Recommended Solutions (Keep Maximum Speed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#l298n-motors-4wd-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L298N → Motors (4WD Configuration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-system-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power System Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Power System Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motor-battery-dedicated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motor Battery (Dedicated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logic-power-shared-from-brain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logic Power (Shared from Brain)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-separate-motor-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Separate Motor Power?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fire-protection-circuit-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔥 Fire Protection Circuit (CRITICAL!)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Fire Protection Circuit (CRITICAL!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fuse-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fuse Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reverse-polarity-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reverse Polarity Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-flyback-diodes-already-in-l298n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Flyback Diodes (Already in L298N)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protection-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protection Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-capacitors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Capacitors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ground-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ghost-micro-bottom-layer-wiring-drive-system">Ghost Micro - Bottom Layer Wiring (Drive System)</h1>
+<h2 id="overview">Overview</h2>
+<p>The Bottom Layer handles all motor control for the 4WD chassis. It uses a dedicated power system to prevent motor noise from affecting the Brain.</p>
+<h2 id="components">Components</h2>
+<ul>
+<li><strong>Controller:</strong> Arduino Nano (5V)</li>
+<li><strong>Motor Driver:</strong> L298N Dual H-Bridge</li>
+<li><strong>Motors:</strong> 4x TT Geared Motors (Yellow)</li>
+<li><strong>Power:</strong> 2x 18650 Li-Ion (3.7V Parallel) → <strong>Dedicated Motor Battery</strong></li>
+</ul>
+<hr />
+<h2 id="wiring-diagram">Wiring Diagram</h2>
+<pre><code class="language-mermaid">graph TB
+    subgraph &quot;Motor Power (Dedicated)&quot;
+    BAT_M[18650 x2 Parallel&lt;br/&gt;3.7V 4000mAh] --&gt;|Red| SW_M[Motor Switch]
+    SW_M --&gt;|Red| L298[L298N VCC Motor]
+    BAT_M --&gt;|Black| GND_M[Motor GND]
+    end
+
+    subgraph &quot;Logic Power (From Brain Rail)&quot;
+    BRAIN[Brain 5V Rail] --&gt;|Red| NANO[Arduino Nano VIN]
+    BRAIN --&gt;|Red| L298_LOGIC[L298N +5V Logic]
+    end
+
+    subgraph &quot;Control Signals&quot;
+    NANO --&gt;|TX| STM[To STM32 RX PA3]
+    STM --&gt;|TX| NANO_RX[Nano RX]
+    NANO --&gt;|D5 PWM| ENA[L298N ENA]
+    NANO --&gt;|D6 PWM| ENB[L298N ENB]
+    NANO --&gt;|D7| IN1[L298N IN1]
+    NANO --&gt;|D8| IN2[L298N IN2]
+    NANO --&gt;|D9| IN3[L298N IN3]
+    NANO --&gt;|D10| IN4[L298N IN4]
+    end
+
+    subgraph &quot;Motors&quot;
+    L298 --&gt;|OUT1/OUT2| M1[Motor Left Front]
+    L298 --&gt;|OUT3/OUT4| M2[Motor Left Rear]
+    L298 --&gt;|OUT1/OUT2| M3[Motor Right Front]
+    L298 --&gt;|OUT3/OUT4| M4[Motor Right Rear]
+    end
+</code></pre>
+<h3 id="physical-wiring-reference">Physical Wiring Reference</h3>
+<p><img alt="L298N Wiring Example" src="/docs/assets/images/iw.jpg" /></p>
+<hr />
+<h2 id="pin-mapping">Pin Mapping</h2>
+<h3 id="arduino-nano-pinout-reference">Arduino Nano Pinout Reference</h3>
+<p><img alt="Arduino Nano Pinout" src="../assets/images/Arduino-Nano-Pinout.png" /></p>
+<h3 id="arduino-nano-l298n">Arduino Nano → L298N</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Nano Pin</th>
+<th style="text-align: left;">L298N Pin</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D5 (PWM)</td>
+<td style="text-align: left;">ENA</td>
+<td style="text-align: left;">Left Motors Speed</td>
+</tr>
+<tr>
+<td style="text-align: left;">D6 (PWM)</td>
+<td style="text-align: left;">ENB</td>
+<td style="text-align: left;">Right Motors Speed</td>
+</tr>
+<tr>
+<td style="text-align: left;">D7</td>
+<td style="text-align: left;">IN1</td>
+<td style="text-align: left;">Left Motor Direction A</td>
+</tr>
+<tr>
+<td style="text-align: left;">D8</td>
+<td style="text-align: left;">IN2</td>
+<td style="text-align: left;">Left Motor Direction B</td>
+</tr>
+<tr>
+<td style="text-align: left;">D9</td>
+<td style="text-align: left;">IN3</td>
+<td style="text-align: left;">Right Motor Direction A</td>
+</tr>
+<tr>
+<td style="text-align: left;">D10</td>
+<td style="text-align: left;">IN4</td>
+<td style="text-align: left;">Right Motor Direction B</td>
+</tr>
+<tr>
+<td style="text-align: left;">5V</td>
+<td style="text-align: left;">+5V (Logic)</td>
+<td style="text-align: left;">Logic Power</td>
+</tr>
+<tr>
+<td style="text-align: left;">GND</td>
+<td style="text-align: left;">GND</td>
+<td style="text-align: left;">Common Ground</td>
+</tr>
+</tbody>
+</table>
+<h3 id="arduino-nano-stm32-brain">Arduino Nano ↔ STM32 Brain</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Nano Pin</th>
+<th style="text-align: left;">STM32 Pin</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">TX (D1)</td>
+<td style="text-align: left;">PA3 (RX2)</td>
+<td style="text-align: left;">Send Status to Brain</td>
+</tr>
+<tr>
+<td style="text-align: left;">RX (D0)</td>
+<td style="text-align: left;">PA2 (TX2)</td>
+<td style="text-align: left;">Receive Commands from Brain</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!WARNING]
+<strong>Programming Nano:</strong> When uploading code via USB, you <strong>must disconnect TX/RX wires</strong> to avoid conflicts with the USB serial port.</p>
+</blockquote>
+<h4 id="recommended-solutions-keep-maximum-speed">🔧 Recommended Solutions (Keep Maximum Speed)</h4>
+<p><strong>Option 1: Use ISP Programming (Best for Production)</strong>
+- Use <strong>USBasp</strong> or <strong>Arduino as ISP</strong> to program Nano via ICSP header
+- <strong>No need to disconnect TX/RX wires!</strong>
+- Keeps HardwareSerial (D0/D1) for maximum speed (115200 baud stable)</p>
+<p><strong>Option 2: Add Jumpers (Quick Development)</strong>
+- Install <strong>2-pin jumpers</strong> on TX/RX lines
+- Remove jumpers during upload, reconnect after
+- Faster than unplugging individual wires</p>
+<blockquote>
+<p>[!NOTE]
+We use <strong>HardwareSerial (D0/D1)</strong> for STM32 communication because:
+- <strong>Faster:</strong> Hardware UART is 10x more reliable than SoftwareSerial at 115200 baud
+- <strong>CPU Efficient:</strong> No software overhead, uses dedicated UART hardware
+- <strong>No Data Loss:</strong> Hardware buffer prevents missed bytes during motor control</p>
+</blockquote>
+<h3 id="l298n-motors-4wd-configuration">L298N → Motors (4WD Configuration)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">L298N Output</th>
+<th style="text-align: left;">Motor Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">OUT1/OUT2</td>
+<td style="text-align: left;">Left Side (Front + Rear Parallel)</td>
+</tr>
+<tr>
+<td style="text-align: left;">OUT3/OUT4</td>
+<td style="text-align: left;">Right Side (Front + Rear Parallel)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!NOTE]
+<strong>4WD Wiring:</strong> Connect Front and Rear motors on each side in <strong>Parallel</strong> to the same L298N output. This allows one L298N to control all 4 motors (2 channels = 2 sides).</p>
+</blockquote>
+<hr />
+<h2 id="power-system-details">Power System Details</h2>
+<h3 id="motor-battery-dedicated">Motor Battery (Dedicated)</h3>
+<ul>
+<li><strong>Type:</strong> 2x 18650 Li-Ion in Parallel</li>
+<li><strong>Voltage:</strong> 3.7V nominal (3.0V - 4.2V range)</li>
+<li><strong>Capacity:</strong> ~4000-6000mAh (depends on cells)</li>
+<li><strong>Connection:</strong> B+ and B- to L298N Motor Power Input</li>
+</ul>
+<h3 id="logic-power-shared-from-brain">Logic Power (Shared from Brain)</h3>
+<ul>
+<li><strong>Source:</strong> Brain's H969-U 5V Rail</li>
+<li><strong>Consumers:</strong> Nano VIN + L298N Logic (5V pin)</li>
+<li><strong>Current:</strong> ~100-150mA (very light)</li>
+</ul>
+<h3 id="why-separate-motor-power">Why Separate Motor Power?</h3>
+<ol>
+<li><strong>Noise Isolation:</strong> Motor switching noise won't affect ESP32/STM32</li>
+<li><strong>Voltage Stability:</strong> Brain gets clean 5V, motors get raw 3.7V</li>
+<li><strong>Safety:</strong> Motor stall won't crash the Brain</li>
+</ol>
+<hr />
+<h2 id="fire-protection-circuit-critical">🔥 Fire Protection Circuit (CRITICAL!)</h2>
+<h3 id="1-fuse-protection">1. Fuse Protection</h3>
+<p><strong>Location:</strong> Between Motor Battery (+) and Main Switch</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Rating</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Blade Fuse</strong></td>
+<td style="text-align: left;">3A - 5A</td>
+<td style="text-align: left;">Prevents overcurrent from battery short circuit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Fuse Holder</strong></td>
+<td style="text-align: left;">Inline</td>
+<td style="text-align: left;">Easy replacement when blown</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wiring:</strong></p>
+<pre><code>Battery (+) → Fuse (3A) → Main Switch → L298N VCC
+</code></pre>
+<h3 id="2-reverse-polarity-protection">2. Reverse Polarity Protection</h3>
+<p><strong>Location:</strong> Motor Battery Output</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Diode</strong></td>
+<td style="text-align: left;">1N5819 (Schottky) or 1N4007</td>
+<td style="text-align: left;">Prevents damage if battery connected backwards</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wiring:</strong></p>
+<pre><code>Battery (+) → Diode (Anode→Cathode) → Fuse → System
+</code></pre>
+<h3 id="3-flyback-diodes-already-in-l298n">3. Flyback Diodes (Already in L298N)</h3>
+<blockquote>
+<p>[!NOTE]
+The L298N module already has <strong>built-in flyback diodes</strong> to protect against motor back-EMF. No additional diodes needed on motor outputs.</p>
+</blockquote>
+<h3 id="protection-summary">Protection Summary</h3>
+<pre><code class="language-mermaid">graph LR
+    BAT[Battery +] --&gt;|1| DIODE[Diode 1N5819]
+    DIODE --&gt;|2| FUSE[Fuse 3A]
+    FUSE --&gt;|3| SW[Main Switch]
+    SW --&gt;|4| L298[L298N VCC]
+</code></pre>
+<hr />
+<h2 id="safety-components">Safety Components</h2>
+<h3 id="required-capacitors">Required Capacitors</h3>
+<ol>
+<li><strong>L298N Input:</strong> 100µF Electrolytic across Motor VCC/GND</li>
+<li><strong>Each Motor:</strong> 0.1µF Ceramic across terminals (reduces RF noise)</li>
+</ol>
+<h3 id="ground-connection">Ground Connection</h3>
+<ul>
+<li><strong>CRITICAL:</strong> Connect Motor Battery GND to Brain GND (Common Ground)</li>
+<li>Use thick wire (18-20 AWG) for motor power</li>
+<li>Use thin wire (22-24 AWG) for logic signals</li>
+</ul>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>✅ Wire the motor battery pack (2x 18650 parallel)</li>
+<li>✅ Connect L298N to battery and Nano</li>
+<li>✅ Write Nano firmware (<code>body_nano.ino</code>)</li>
+<li>✅ Test motor direction and speed control</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

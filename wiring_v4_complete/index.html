@@ -1,0 +1,1984 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)">
+      
+      
+      
+      
+        <link rel="prev" href="../architecture_v4/">
+      
+      
+        <link rel="next" href="../power_circuit_v4/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Wiring Guide v4.0 (Complete) - Micro AI Robot Rover</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Sarabun";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ghost-micro-v40-complete-wiring-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Micro AI Robot Rover" class="md-header__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micro AI Robot Rover
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Wiring Guide v4.0 (Complete)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micro AI Robot Rover" class="md-nav__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micro AI Robot Rover
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก (Home)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ภาพรวมและฮาร์ดแวร์ (Overview)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_guide_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือการต่อสาย - Wiring Guide (v4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_layer_wiring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v4.0 (3-Tier)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-system-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📐 Complete System Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-1-esp32-commander-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Tier 1: ESP32 Commander Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 Tier 1: ESP32 Commander Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esp32-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32 Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bno055-imu-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BNO055 IMU Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gps-neo-m8n-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPS NEO-M8N Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sd-card-module-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SD Card Module Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-2-stm32-controller-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Tier 2: STM32 Controller Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Tier 2: STM32 Controller Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stm32-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STM32 Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-wiring-left" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder Wiring (Left)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-wiring-right" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder Wiring (Right)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-3-nano-sensor-hub-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📡 Tier 3: Nano Sensor Hub Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📡 Tier 3: Nano Sensor Hub Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nano-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nano Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ultrasonic-sensor-wiring-all-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ultrasonic Sensor Wiring (All 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔋 Power Distribution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔋 Power Distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brain-power-h969-u" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brain Power (H969-U)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#motor-power-dedicated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motor Power (Dedicated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Communication Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assembly-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Assembly Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Assembly Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tier-1-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 1 (ESP32)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tier-2-stm32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 2 (STM32)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tier-3-nano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 3 (Nano)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_circuit_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Circuit Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_budget_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Budget Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_commander_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Commander Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_recording_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Recording Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_control_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Control Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32cam_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Programming Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_camera_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Camera Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transmitter_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmitter Hardware (รีโมท)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brain_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../body_assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างร่างกาย (Body Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next.js Dashboard Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../industrial_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fritzing_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือออกแบบวงจร (Fritzing Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    สรุปและกิตติกรรมประกาศ (Summary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    อ้างอิงและผู้สนับสนุน (References)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-system-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📐 Complete System Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-1-esp32-commander-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Tier 1: ESP32 Commander Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 Tier 1: ESP32 Commander Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esp32-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32 Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bno055-imu-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BNO055 IMU Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gps-neo-m8n-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPS NEO-M8N Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sd-card-module-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SD Card Module Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-2-stm32-controller-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Tier 2: STM32 Controller Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Tier 2: STM32 Controller Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stm32-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STM32 Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-wiring-left" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder Wiring (Left)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-wiring-right" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder Wiring (Right)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tier-3-nano-sensor-hub-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📡 Tier 3: Nano Sensor Hub Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📡 Tier 3: Nano Sensor Hub Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nano-pin-assignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nano Pin Assignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ultrasonic-sensor-wiring-all-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ultrasonic Sensor Wiring (All 4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔋 Power Distribution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔋 Power Distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brain-power-h969-u" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brain Power (H969-U)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#motor-power-dedicated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motor Power (Dedicated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Communication Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assembly-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Assembly Checklist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Assembly Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tier-1-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 1 (ESP32)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tier-2-stm32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 2 (STM32)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tier-3-nano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tier 3 (Nano)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ghost-micro-v40-complete-wiring-guide">Ghost Micro v4.0 - Complete Wiring Guide</h1>
+<h2 id="system-architecture">🎯 System Architecture</h2>
+<p><strong>3-Tier Hierarchical Control:</strong>
+- <strong>Tier 1:</strong> ESP32 (Navigation Brain)
+- <strong>Tier 2:</strong> STM32 (Motor Controller)
+- <strong>Tier 3:</strong> Nano (Sensor Hub)</p>
+<hr />
+<h2 id="complete-system-diagram">📐 Complete System Diagram</h2>
+<pre><code class="language-mermaid">graph TB
+    subgraph &quot;Power System&quot;
+        BAT_BRAIN[Brain Battery&lt;br/&gt;2x 18650 Parallel]
+        BAT_MOTOR[Motor Battery&lt;br/&gt;2x 18650 Parallel]
+        H969[H969-U Module&lt;br/&gt;5V Boost]
+        SW_BRAIN[Brain Switch]
+        SW_MOTOR[Motor Switch]
+    end
+
+    subgraph &quot;Tier 1: ESP32 Commander&quot;
+        ESP[ESP32-WROOM]
+        BNO[BNO055 IMU]
+        GPS[GPS NEO-M8N]
+        SD_MOD[SD Card Module]
+        OLED[OLED Display]
+    end
+
+    subgraph &quot;Tier 2: STM32 Controller&quot;
+        STM[STM32F103]
+        ENC_L[Encoder Left]
+        ENC_R[Encoder Right]
+        BUZZ[Buzzer]
+    end
+
+    subgraph &quot;Tier 3: Nano Sensor Hub&quot;
+        NANO[Arduino Nano]
+        US_F[Ultrasonic Front]
+        US_L[Ultrasonic Left]
+        US_R[Ultrasonic Right]
+        US_B[Ultrasonic Rear]
+    end
+
+    subgraph &quot;Body Layer&quot;
+        L298[L298N Driver]
+        M_FL[Motor FL]
+        M_FR[Motor FR]
+        M_RL[Motor RL]
+        M_RR[Motor RR]
+    end
+
+    BAT_BRAIN --&gt; SW_BRAIN
+    SW_BRAIN --&gt; H969
+    H969 --&gt;|5V| ESP
+    H969 --&gt;|5V| STM
+    H969 --&gt;|5V| NANO
+
+    BAT_MOTOR --&gt; SW_MOTOR
+    SW_MOTOR --&gt; L298
+
+    BNO --&gt;|I2C| ESP
+    GPS --&gt;|UART2| ESP
+    SD_MOD --&gt;|SPI| ESP
+    OLED --&gt;|I2C| ESP
+
+    ESP --&gt;|UART1| STM
+    STM --&gt;|UART3| ESP
+
+    ENC_L --&gt;|Timer2| STM
+    ENC_R --&gt;|Timer3| STM
+    BUZZ --&gt; STM
+
+    STM --&gt;|UART2| NANO
+
+    US_F --&gt; NANO
+    US_L --&gt; NANO
+    US_R --&gt; NANO
+    US_B --&gt; NANO
+
+    STM --&gt;|PWM| L298
+    L298 --&gt; M_FL
+    L298 --&gt; M_FR
+    L298 --&gt; M_RL
+    L298 --&gt; M_RR
+</code></pre>
+<hr />
+<h2 id="tier-1-esp32-commander-wiring">🔌 Tier 1: ESP32 Commander Wiring</h2>
+<h3 id="esp32-pin-assignments">ESP32 Pin Assignments</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Interface</th>
+<th style="text-align: left;">ESP32 Pins</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>BNO055 IMU</strong></td>
+<td style="text-align: left;">I2C</td>
+<td style="text-align: left;">GPIO21 (SDA), GPIO22 (SCL)</td>
+<td style="text-align: left;">Heading &amp; Tilt</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPS NEO-M8N</strong></td>
+<td style="text-align: left;">UART2</td>
+<td style="text-align: left;">GPIO16 (RX), GPIO17 (TX)</td>
+<td style="text-align: left;">Position Data</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SD Card</strong></td>
+<td style="text-align: left;">SPI</td>
+<td style="text-align: left;">GPIO5 (CS), GPIO18 (SCK), GPIO19 (MISO), GPIO23 (MOSI)</td>
+<td style="text-align: left;">Waypoints/Logs</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OLED Display</strong></td>
+<td style="text-align: left;">I2C</td>
+<td style="text-align: left;">Shared with BNO055</td>
+<td style="text-align: left;">Status Display</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>STM32 Link</strong></td>
+<td style="text-align: left;">UART1</td>
+<td style="text-align: left;">GPIO1 (TX), GPIO3 (RX)</td>
+<td style="text-align: left;">Command/Status</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Power</strong></td>
+<td style="text-align: left;">5V</td>
+<td style="text-align: left;">VIN, GND</td>
+<td style="text-align: left;">From H969</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bno055-imu-wiring">BNO055 IMU Wiring</h3>
+<pre><code>BNO055          ESP32
+VIN     →       3.3V
+GND     →       GND
+SDA     →       GPIO21
+SCL     →       GPIO22
+</code></pre>
+<h3 id="gps-neo-m8n-wiring">GPS NEO-M8N Wiring</h3>
+<pre><code>GPS             ESP32
+VCC     →       3.3V
+GND     →       GND
+TX      →       GPIO16 (RX2)
+RX      →       GPIO17 (TX2)
+</code></pre>
+<h3 id="sd-card-module-wiring">SD Card Module Wiring</h3>
+<pre><code>SD Card         ESP32
+VCC     →       3.3V
+GND     →       GND
+CS      →       GPIO5
+SCK     →       GPIO18
+MISO    →       GPIO19
+MOSI    →       GPIO23
+</code></pre>
+<hr />
+<h2 id="tier-2-stm32-controller-wiring">⚙️ Tier 2: STM32 Controller Wiring</h2>
+<h3 id="stm32-pin-assignments">STM32 Pin Assignments</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Interface</th>
+<th style="text-align: left;">STM32 Pins</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Encoder Left</strong></td>
+<td style="text-align: left;">Timer2</td>
+<td style="text-align: left;">PA0 (CH1), PA1 (CH2)</td>
+<td style="text-align: left;">Quadrature</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Encoder Right</strong></td>
+<td style="text-align: left;">Timer3</td>
+<td style="text-align: left;">PA6 (CH1), PA7 (CH2)</td>
+<td style="text-align: left;">Quadrature</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ESP32 Link</strong></td>
+<td style="text-align: left;">USART3</td>
+<td style="text-align: left;">PB10 (TX), PB11 (RX)</td>
+<td style="text-align: left;">Receive Goals</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Nano Link</strong></td>
+<td style="text-align: left;">USART2</td>
+<td style="text-align: left;">PA2 (TX), PA3 (RX)</td>
+<td style="text-align: left;">Motor Commands</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Buzzer</strong></td>
+<td style="text-align: left;">PWM</td>
+<td style="text-align: left;">PB0</td>
+<td style="text-align: left;">Audio Feedback</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LED</strong></td>
+<td style="text-align: left;">GPIO</td>
+<td style="text-align: left;">PC13</td>
+<td style="text-align: left;">Status Indicator</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Power</strong></td>
+<td style="text-align: left;">5V</td>
+<td style="text-align: left;">5V, GND</td>
+<td style="text-align: left;">From H969</td>
+</tr>
+</tbody>
+</table>
+<h3 id="encoder-wiring-left">Encoder Wiring (Left)</h3>
+<pre><code>Encoder         STM32
+VCC     →       3.3V
+GND     →       GND
+A       →       PA0 (Timer2 CH1)
+B       →       PA1 (Timer2 CH2)
+</code></pre>
+<h3 id="encoder-wiring-right">Encoder Wiring (Right)</h3>
+<pre><code>Encoder         STM32
+VCC     →       3.3V
+GND     →       GND
+A       →       PA6 (Timer3 CH1)
+B       →       PA7 (Timer3 CH2)
+</code></pre>
+<hr />
+<h2 id="tier-3-nano-sensor-hub-wiring">📡 Tier 3: Nano Sensor Hub Wiring</h2>
+<h3 id="nano-pin-assignments">Nano Pin Assignments</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Interface</th>
+<th style="text-align: left;">Nano Pins</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Ultrasonic Front</strong></td>
+<td style="text-align: left;">Digital</td>
+<td style="text-align: left;">D2 (Trig), D3 (Echo)</td>
+<td style="text-align: left;">0-400cm</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ultrasonic Left</strong></td>
+<td style="text-align: left;">Digital</td>
+<td style="text-align: left;">D4 (Trig), D5 (Echo)</td>
+<td style="text-align: left;">Side clearance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ultrasonic Right</strong></td>
+<td style="text-align: left;">Digital</td>
+<td style="text-align: left;">D6 (Trig), D7 (Echo)</td>
+<td style="text-align: left;">Side clearance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ultrasonic Rear</strong></td>
+<td style="text-align: left;">Digital</td>
+<td style="text-align: left;">D8 (Trig), D9 (Echo)</td>
+<td style="text-align: left;">Reverse safety</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>STM32 Link</strong></td>
+<td style="text-align: left;">UART</td>
+<td style="text-align: left;">D0 (RX), D1 (TX)</td>
+<td style="text-align: left;">Report Obstacles</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>L298N Control</strong></td>
+<td style="text-align: left;">PWM/Digital</td>
+<td style="text-align: left;">D5-D10</td>
+<td style="text-align: left;">Motor Driver</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Power</strong></td>
+<td style="text-align: left;">5V</td>
+<td style="text-align: left;">VIN, GND</td>
+<td style="text-align: left;">From H969</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ultrasonic-sensor-wiring-all-4">Ultrasonic Sensor Wiring (All 4)</h3>
+<pre><code>HC-SR04         Nano
+VCC     →       5V
+GND     →       GND
+Trig    →       D2/D4/D6/D8 (Front/Left/Right/Rear)
+Echo    →       D3/D5/D7/D9 (Front/Left/Right/Rear)
+</code></pre>
+<blockquote>
+<p>[!WARNING]
+<strong>Pin Conflict:</strong> D5 is used for both Ultrasonic Left Echo AND L298N ENA. We need to reassign!</p>
+</blockquote>
+<p><strong>Updated Ultrasonic Pins:</strong>
+- Front: D10 (Trig), D11 (Echo)
+- Left: D12 (Trig), A0 (Echo)
+- Right: A1 (Trig), A2 (Echo)
+- Rear: A3 (Trig), A4 (Echo)</p>
+<hr />
+<h2 id="power-distribution">🔋 Power Distribution</h2>
+<h3 id="brain-power-h969-u">Brain Power (H969-U)</h3>
+<pre><code>Battery (+) → Diode 1N5819 → Fuse 3A → Switch → H969 IN+
+Battery (-) → H969 IN-
+H969 OUT+ → ESP32 VIN, STM32 5V, Nano VIN
+H969 OUT- → Common GND
+</code></pre>
+<h3 id="motor-power-dedicated">Motor Power (Dedicated)</h3>
+<pre><code>Battery (+) → Diode 1N5819 → Fuse 5A → Switch → L298N VCC
+Battery (-) → L298N GND (Common with Brain GND)
+</code></pre>
+<hr />
+<h2 id="communication-summary">📊 Communication Summary</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Link</th>
+<th style="text-align: left;">From</th>
+<th style="text-align: left;">To</th>
+<th style="text-align: left;">Baud</th>
+<th style="text-align: left;">Protocol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Goal Commands</strong></td>
+<td style="text-align: left;">ESP32 TX</td>
+<td style="text-align: left;">STM32 RX3</td>
+<td style="text-align: left;">115200</td>
+<td style="text-align: left;">GoalCommand</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Status Reports</strong></td>
+<td style="text-align: left;">STM32 TX3</td>
+<td style="text-align: left;">ESP32 RX</td>
+<td style="text-align: left;">115200</td>
+<td style="text-align: left;">StatusReport</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Motor Commands</strong></td>
+<td style="text-align: left;">STM32 TX2</td>
+<td style="text-align: left;">Nano RX</td>
+<td style="text-align: left;">115200</td>
+<td style="text-align: left;">Motor PWM</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Obstacle Map</strong></td>
+<td style="text-align: left;">Nano TX</td>
+<td style="text-align: left;">STM32 RX2</td>
+<td style="text-align: left;">115200</td>
+<td style="text-align: left;">ObstacleMap</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPS Data</strong></td>
+<td style="text-align: left;">GPS TX</td>
+<td style="text-align: left;">ESP32 RX2</td>
+<td style="text-align: left;">9600</td>
+<td style="text-align: left;">NMEA</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="assembly-checklist">✅ Assembly Checklist</h2>
+<h3 id="tier-1-esp32">Tier 1 (ESP32)</h3>
+<ul>
+<li>[ ] Solder BNO055 to I2C (GPIO21/22)</li>
+<li>[ ] Connect GPS to UART2 (GPIO16/17)</li>
+<li>[ ] Wire SD Card to SPI (GPIO5/18/19/23)</li>
+<li>[ ] Test I2C scan (should detect BNO055 at 0x28)</li>
+</ul>
+<h3 id="tier-2-stm32">Tier 2 (STM32)</h3>
+<ul>
+<li>[ ] Connect encoders to Timer2/Timer3</li>
+<li>[ ] Wire ESP32 link (USART3)</li>
+<li>[ ] Wire Nano link (USART2)</li>
+<li>[ ] Test encoder pulse counting</li>
+</ul>
+<h3 id="tier-3-nano">Tier 3 (Nano)</h3>
+<ul>
+<li>[ ] Wire 4x ultrasonic sensors</li>
+<li>[ ] Connect STM32 link (UART)</li>
+<li>[ ] Test ultrasonic ranging</li>
+</ul>
+<h3 id="power">Power</h3>
+<ul>
+<li>[ ] Assemble Brain battery (2x 18650 + H969)</li>
+<li>[ ] Assemble Motor battery (2x 18650 + switch)</li>
+<li>[ ] Install fuses and diodes</li>
+<li>[ ] Test voltage rails (5V for brain, 3.7V for motors)</li>
+</ul>
+<hr />
+<h2 id="next-steps">🚀 Next Steps</h2>
+<ol>
+<li><strong>Phase 2:</strong> Wire BNO055 + GPS to ESP32</li>
+<li><strong>Phase 3:</strong> Wire Encoders to STM32</li>
+<li><strong>Phase 4:</strong> Wire Ultrasonics to Nano</li>
+<li><strong>Phase 5:</strong> Integration testing</li>
+</ol>
+<p><strong>Status:</strong> Wiring guide complete ✅</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

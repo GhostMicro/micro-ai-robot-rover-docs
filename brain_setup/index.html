@@ -1,0 +1,1684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)">
+      
+      
+      
+      
+        <link rel="prev" href="../transmitter_setup/">
+      
+      
+        <link rel="next" href="../body_assembly/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>การสร้างสมองและโค้ด (Brain Setup) - Micro AI Robot Rover</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Sarabun";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#brain-implementation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Micro AI Robot Rover" class="md-header__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micro AI Robot Rover
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              การสร้างสมองและโค้ด (Brain Setup)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micro AI Robot Rover" class="md-nav__button md-logo" aria-label="Micro AI Robot Rover" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micro AI Robot Rover
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก (Home)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ภาพรวมและฮาร์ดแวร์ (Overview)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_guide_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือการต่อสาย - Wiring Guide (v4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_layer_wiring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bottom Layer (Drive)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Performance Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMA Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture v4.0 (3-Tier)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiring_v4_complete/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiring Guide v4.0 (Complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_circuit_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Circuit Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power_budget_v4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Budget Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_commander_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Commander Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_recording_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Recording Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera_control_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Control Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32cam_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Programming Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_camera_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard Camera Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transmitter_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmitter Hardware (รีโมท)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างสมองและโค้ด (Brain Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-brain-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. วงจรสมอง (Brain Circuit)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. วงจรสมอง (Brain Circuit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wiring-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ผังการต่อสาย (Wiring Diagram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-communication-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. โค้ดสื่อสาร (Communication Code)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. โค้ดสื่อสาร (Communication Code)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระบบ Priority Control (ลำดับความสำคัญ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-mega-muscle-body-sensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ฝั่ง Arduino Mega (Muscle &amp; Body Sensor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-main-navigator-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ฝั่ง ESP32 Main (Navigator &amp; Gateway)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ฝั่ง ESP32 Main (Navigator &amp; Gateway)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#platformio-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlatformIO Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-main-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32 Main Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../body_assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสร้างร่างกาย (Body Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next.js Dashboard Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../industrial_standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fritzing_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คู่มือออกแบบวงจร (Fritzing Setup)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    สรุปและกิตติกรรมประกาศ (Summary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    อ้างอิงและผู้สนับสนุน (References)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-brain-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. วงจรสมอง (Brain Circuit)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. วงจรสมอง (Brain Circuit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wiring-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ผังการต่อสาย (Wiring Diagram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-communication-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. โค้ดสื่อสาร (Communication Code)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. โค้ดสื่อสาร (Communication Code)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระบบ Priority Control (ลำดับความสำคัญ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-mega-muscle-body-sensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ฝั่ง Arduino Mega (Muscle &amp; Body Sensor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-main-navigator-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ฝั่ง ESP32 Main (Navigator &amp; Gateway)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ฝั่ง ESP32 Main (Navigator &amp; Gateway)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#platformio-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlatformIO Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-main-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32 Main Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="brain-implementation">ขั้นตอนการสร้างส่วนสมอง (Brain Implementation)</h1>
+<p>ส่วนสมอง (Brain) คือกล่องควบคุมหลักที่ประกอบไปด้วย ESP32 และเซนเซอร์ต่างๆ ขั้นตอนนี้จะอธิบายวงจรและการเขียนโปรแกรมสื่อสาร</p>
+<h2 id="1-brain-circuit">1. วงจรสมอง (Brain Circuit)</h2>
+<p>หัวใจสำคัญคือการเชื่อมต่อ <strong>ESP32 (3.3V)</strong> เข้ากับ <strong>Arduino Mega (5V)</strong> ผ่านตัวแปลงระดับแรงดัน (<strong>Logic Level Converter</strong>) เพื่อป้องกันไม่ให้ ESP32 เสียหาย</p>
+<h3 id="wiring-diagram">ผังการต่อสาย (Wiring Diagram)</h3>
+<p><strong>การเชื่อมต่อระหว่าง Controller:</strong></p>
+<pre><code>[ESP32]             [Level Converter]            [Arduino Mega]
+GPIO 17 (TX2) ----&gt; LV1 (Low) -&gt; HV1 (High) ----&gt; D19 (RX1)  (ส่งคำสั่ง)
+GPIO 16 (RX2) &lt;---- LV2 (Low) &lt;- HV2 (High) &lt;---- D18 (TX1)  (รับค่ากลับ)
+3.3V          ----&gt; LV          HV          ----&gt; 5V
+GND           ----&gt; GND         GND         ----&gt; GND
+</code></pre>
+<p><strong>การต่อระบบบันทึกข้อมูล (SD Card SPI):</strong>
+ต่อเข้ากับ <strong>ESP32</strong> โดยตรงเพื่อความเร็วในการเขียนข้อมูล
+*   <strong>CS:</strong> GPIO 5
+*   <strong>SCK:</strong> GPIO 18
+*   <strong>MOSI:</strong> GPIO 23
+*   <strong>MISO:</strong> GPIO 19
+*   <strong>VCC:</strong> 5V (จาก Logic Power)
+*   <strong>GND:</strong> GND</p>
+<p><strong>การต่อระบบแสดงผลและเวลา (I2C Bus):</strong>
+ต่อขนานกันเข้าที่ <strong>ESP32</strong> (Pin 21, 22)
+*   <strong>SDA (GPIO 21):</strong> ต่อไปยัง SDA ของ <strong>OLED</strong> และ SDA ของ <strong>RTC Module (DS3231)</strong>
+*   <strong>SCL (GPIO 22):</strong> ต่อไปยัง SCL ของ <strong>OLED</strong> และ SCL ของ <strong>RTC Module (DS3231)</strong>
+*   <strong>VCC:</strong> 3.3V (สำหรับเซนเซอร์ไอซีกระแสต่ำ) หรือ 5V ตามรุ่นโมดูล</p>
+<h2 id="2-communication-code">2. โค้ดสื่อสาร (Communication Code)</h2>
+<p>เราใช้โปรโตคอล <strong>Serial UART</strong> ในการส่งคำสั่งรูปแบบ Text String ที่อ่านง่าย (Human Readable) เช่น <code>MOVE:100:100</code></p>
+<h3 id="priority-control">ระบบ Priority Control (ลำดับความสำคัญ)</h3>
+<ol>
+<li><strong>Priority 1:</strong> คำสั่งจาก Notebook (ฉุกเฉิน/Manual Override)</li>
+<li><strong>Priority 2:</strong> ปุ่มกดที่ตัวกล่อง ESP32</li>
+<li><strong>Priority 3:</strong> โหมดอัตโนมัติตาม Body ID</li>
+</ol>
+<hr />
+<h3 id="arduino-mega-muscle-body-sensor">ฝั่ง Arduino Mega (Muscle &amp; Body Sensor)</h3>
+<p>รับผิดชอบ: ตรวจจับ Body ID, อ่านค่า Ultrasonic Sensors, รอรับคำสั่งจาก ESP32, และควบคุมมอเตอร์</p>
+<p><strong>Pin Assignment:</strong>
+- <strong>Serial1 (RX1=19, TX1=18):</strong> ต่อไปที่ ESP32 ผ่าน Level Converter
+- <strong>Pin 30, 31, 32:</strong> Input สำหรับอ่าน ID ของบอดี้รถ (ต่อลง GND เพื่อเลือก ID)
+- <strong>Pin 22-29:</strong> Ultrasonic Sensors (Trig/Echo pairs)
+- <strong>Pin 2-7:</strong> PWM สำหรับ Motor Driver</p>
+<pre><code class="language-cpp">// --- Arduino Mega: Muscle &amp; Body Sensor ---
+#include &lt;NewPing.h&gt;
+
+// --- Configuration: Pins ---
+#define BODY_RESCUE_PIN 30
+#define BODY_EXPLORE_PIN 31
+#define BODY_SENTRY_PIN 32
+
+// Motor Pins (ต่อเข้ากับ MOSFET หรือ Motor Driver)
+#define MOTOR_L_PWM 2  // ความเร็วซ้าย
+#define MOTOR_L_DIR 24 // ทิศทางซ้าย (HIGH=หน้า, LOW=หลัง)
+#define MOTOR_R_PWM 3  // ความเร็วขวา
+#define MOTOR_R_DIR 25 // ทิศทางขวา (HIGH=หน้า, LOW=หลัง)
+
+// Ultrasonic Sensors
+#define SONAR_NUM 4
+#define MAX_DISTANCE 200
+#define SAFE_DISTANCE 15 // ระยะหยุดฉุกเฉิน (ซม.)
+
+NewPing sonar[SONAR_NUM] = {
+  NewPing(22, 23, MAX_DISTANCE), // 0: Front
+  NewPing(28, 29, MAX_DISTANCE), // 1: Back
+  NewPing(26, 27, MAX_DISTANCE), // 2: Left
+  NewPing(40, 41, MAX_DISTANCE)  // 3: Right (ปรับพินตามความเหมาะสม)
+};
+
+int distances[SONAR_NUM];
+unsigned long lastBodyCheck = 0;
+
+void setup() {
+  Serial.begin(115200); // Debug Console
+  Serial1.begin(9600);  // Communication with ESP32 (Main Brain)
+
+  // Setup Body Switch Pins
+  pinMode(BODY_RESCUE_PIN, INPUT_PULLUP);
+  pinMode(BODY_EXPLORE_PIN, INPUT_PULLUP);
+  pinMode(BODY_SENTRY_PIN, INPUT_PULLUP);
+
+  // Setup Motor Pins
+  pinMode(MOTOR_L_PWM, OUTPUT);
+  pinMode(MOTOR_L_DIR, OUTPUT);
+  pinMode(MOTOR_R_PWM, OUTPUT);
+  pinMode(MOTOR_R_DIR, OUTPUT);
+
+  stopAllMotors();
+  Serial.println(&quot;Mega: Muscle System Online - Ready to Roll&quot;);
+}
+
+void loop() {
+  // 1. อ่านค่าเซนเซอร์แบบรวดเร็ว
+  updateSensors();
+
+  // 2. ระบบความปลอดภัยอัตโนมัติ (Autonomous Safety)
+  if (distances[0] &lt; SAFE_DISTANCE) { 
+    stopAllMotors();
+    Serial1.println(&quot;EVENT:OBSTACLE_FRONT&quot;); 
+  }
+
+  // 3. ส่งข้อมูลระยะทางให้ ESP32 ทุก 500ms (ลด Traffic สาย Serial)
+  static unsigned long lastUpdate = 0;
+  if (millis() - lastUpdate &gt; 500) {
+    sendSensorData();
+    lastUpdate = millis();
+  }
+
+  // 4. ส่งสถานะ Body ID ทุก 5 วินาที
+  if (millis() - lastBodyCheck &gt; 5000) {
+    sendBodyID();
+    lastBodyCheck = millis();
+  }
+
+  // 5. รับคำสั่งจาก ESP32 (Dashboard)
+  if (Serial1.available()) {
+    String cmd = Serial1.readStringUntil('\n');
+    cmd.trim();
+    processCommand(cmd);
+  }
+}
+
+// --- ฟังก์ชันเสริม (Helper Functions) ---
+
+void updateSensors() {
+  for (int i = 0; i &lt; SONAR_NUM; i++) {
+    distances[i] = sonar[i].ping_cm();
+    if (distances[i] == 0) distances[i] = MAX_DISTANCE;
+    delay(30); // ระยะเวลาที่เหมาะสมสำหรับ NewPing
+  }
+}
+
+void sendSensorData() {
+  Serial1.print(&quot;DIST:&quot;);
+  Serial1.print(distances[0]); Serial1.print(&quot;,&quot;);
+  Serial1.print(distances[1]); Serial1.print(&quot;,&quot;);
+  Serial1.print(distances[2]); Serial1.print(&quot;,&quot;);
+  Serial1.println(distances[3]);
+}
+
+void sendBodyID() {
+  if (digitalRead(BODY_RESCUE_PIN) == LOW) Serial1.println(&quot;BODY:RESCUE&quot;);
+  else if (digitalRead(BODY_EXPLORE_PIN) == LOW) Serial1.println(&quot;BODY:EXPLORE&quot;);
+  else if (digitalRead(BODY_SENTRY_PIN) == LOW) Serial1.println(&quot;BODY:SENTRY&quot;);
+  else Serial1.println(&quot;BODY:DEFAULT&quot;);
+}
+
+void processCommand(String cmd) {
+  Serial.println(&quot;Received: &quot; + cmd);
+
+  if (cmd == &quot;HALT&quot;) {
+    stopAllMotors();
+    Serial1.println(&quot;ACK:STOPPED&quot;);
+  } 
+  else if (cmd.startsWith(&quot;MOVE:&quot;)) {
+    // Format: MOVE:DIRECTION:SPEED (เช่น MOVE:FWD:200)
+    int firstColon = cmd.indexOf(':');
+    int secondColon = cmd.indexOf(':', firstColon + 1);
+
+    String direction = cmd.substring(firstColon + 1, secondColon);
+    int speed = cmd.substring(secondColon + 1).toInt();
+
+    controlMovement(direction, speed);
+  }
+}
+
+void controlMovement(String dir, int spd) {
+  if (dir == &quot;FWD&quot;) {
+    digitalWrite(MOTOR_L_DIR, HIGH); digitalWrite(MOTOR_R_DIR, HIGH);
+    analogWrite(MOTOR_L_PWM, spd);   analogWrite(MOTOR_R_PWM, spd);
+  } else if (dir == &quot;BCK&quot;) {
+    digitalWrite(MOTOR_L_DIR, LOW);  digitalWrite(MOTOR_R_DIR, LOW);
+    analogWrite(MOTOR_L_PWM, spd);   analogWrite(MOTOR_R_PWM, spd);
+  } else if (dir == &quot;LFT&quot;) {
+    digitalWrite(MOTOR_L_DIR, LOW);  digitalWrite(MOTOR_R_DIR, HIGH);
+    analogWrite(MOTOR_L_PWM, spd);   analogWrite(MOTOR_R_PWM, spd);
+  } else if (dir == &quot;RGT&quot;) {
+    digitalWrite(MOTOR_L_DIR, HIGH); digitalWrite(MOTOR_R_DIR, LOW);
+    analogWrite(MOTOR_L_PWM, spd);   analogWrite(MOTOR_R_PWM, spd);
+  }
+}
+
+void stopAllMotors() {
+  analogWrite(MOTOR_L_PWM, 0);
+  analogWrite(MOTOR_R_PWM, 0);
+  Serial.println(&quot;!!! STOPPED !!!&quot;);
+}
+</code></pre>
+<p><strong>หมายเหตุ:</strong>
+- ต้องติดตั้ง Library <code>NewPing</code> สำหรับ Ultrasonic Sensors
+- ข้อมูลจะถูกส่งในรูปแบบ <code>DIST:25,80,40,42</code> (Front, Back, Left, Right)</p>
+<hr />
+<h3 id="esp32-main-navigator-gateway">ฝั่ง ESP32 Main (Navigator &amp; Gateway)</h3>
+<p>รับผิดชอบ: ตัดสินใจระดับสูง, รับคำสั่งจาก Notebook, บันทึก Log, แสดงผลบน OLED, และส่งข้อมูลไปยัง Dashboard</p>
+<p><strong>หน้าที่หลัก:</strong>
+1. รับข้อมูลจาก Mega (ระยะทาง Ultrasonic, สถานะมอเตอร์)
+2. อ่านค่าเซนเซอร์ตัวเอง (MPU6050, RTC)
+3. บันทึกข้อมูลลง SD Card (Black Box Log)
+4. ส่งข้อมูลไปยัง Next.js Dashboard ผ่าน HTTP POST</p>
+<p><strong>Pin Assignment:</strong>
+- <strong>I2C (SDA=21, SCL=22):</strong> ต่อ OLED, RTC DS3231, และ MPU6050
+- <strong>SPI (CS=5, SCK=18, MISO=19, MOSI=23):</strong> ต่อ Micro SD Card
+- <strong>UART2 (RX2=16, TX2=17):</strong> ต่อไปที่ Mega ผ่าน Level Converter
+- <strong>Pin 4:</strong> ปุ่มกดเปลี่ยนโหมดที่ตัวกล่อง</p>
+<h4 id="platformio-configuration">PlatformIO Configuration</h4>
+<p>สำหรับใช้งานกับ PlatformIO IDE สร้างไฟล์ <code>platformio.ini</code>:</p>
+<pre><code class="language-ini">[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+monitor_speed = 115200
+lib_deps =
+    adafruit/Adafruit SSD1306 @ ^2.5.7
+    adafruit/Adafruit GFX Library @ ^1.11.5
+    adafruit/Adafruit MPU6050 @ ^2.2.4
+    adafruit/Adafruit Unified Sensor @ ^1.1.9
+    adafruit/RTClib @ ^2.1.1
+    bblanchon/ArduinoJson @ ^6.21.2
+</code></pre>
+<h4 id="esp32-main-code">ESP32 Main Code</h4>
+<h1 id="include">include <WiFi.h></h1>
+<h1 id="include_1">include <esp_now.h></h1>
+<h1 id="include_2">include <HTTPClient.h></h1>
+<h1 id="include_3">include <ArduinoJson.h></h1>
+<h1 id="include_4">include <HardwareSerial.h></h1>
+<h1 id="include_5">include <Wire.h></h1>
+<h1 id="include_6">include <Adafruit_SSD1306.h></h1>
+<h1 id="include_7">include <RTClib.h></h1>
+<h1 id="include_8">include <SPI.h></h1>
+<h1 id="include_9">include <SD.h></h1>
+<h1 id="include_10">include <Adafruit_MPU6050.h></h1>
+<h1 id="include_11">include <Adafruit_Sensor.h></h1>
+<p>// --- ESP-NOW Data Structure (ต้องตรงกับ Transmitter) ---
+typedef struct struct_message {
+    int speed;
+    int steer;
+    bool rocket;
+    int mode;
+} struct_message;</p>
+<p>struct_message incomingData;</p>
+<p>// --- ตั้งค่า WiFi ---
+const char<em> ssid = "YOUR_WIFI_SSID";
+const char</em> password = "YOUR_WIFI_PASSWORD";
+const char* serverUrl = "http://YOUR_PC_IP:3000/api/telemetry";</p>
+<p>// --- Pins ---</p>
+<h1 id="define-sd_cs-5">define SD_CS 5</h1>
+<h1 id="define-mode_button-4">define MODE_BUTTON 4</h1>
+<p>// --- Objects ---
+HardwareSerial MegaSerial(2);
+Adafruit_SSD1306 display(128, 64, &amp;Wire, -1);
+RTC_DS3231 rtc;
+Adafruit_MPU6050 mpu;</p>
+<p>// --- Variables ---
+String currentMode = "WAITING";
+bool manualOverride = false;</p>
+<p>struct TelemetryData {
+  int distFront = 0, distBack = 0, distLeft = 0, distRight = 0;
+  float pitch = 0.0, roll = 0.0;
+  int speed = 0, steer = 0;
+} telemetry;</p>
+<p>// Function Prototypes
+void handleNotebookCommand(String cmd);
+void parseMegaData(String data);
+void sendTelemetryToDashboard();
+void updateOLED();</p>
+<p>// ESP-NOW Callback
+void OnDataRecv(const uint8_t * mac, const uint8_t *incoming, int len) {
+  memcpy(&amp;incomingData, incoming, sizeof(incomingData));</p>
+<p>// Forward to Mega via Serial
+  if (incomingData.mode == 1) { // Manual Mode
+      String cmd = "MOVE:";
+      if (incomingData.speed &gt; 0) cmd += "FWD:";
+      else if (incomingData.speed &lt; 0) cmd += "BCK:";
+      else cmd += "STP:"; // Stop if speed is 0</p>
+<pre><code>  cmd += String(abs(incomingData.speed));
+  MegaSerial.println(cmd);
+
+  // Handle Steer if speed is 0
+  if (incomingData.speed == 0 &amp;&amp; abs(incomingData.steer) &gt; 50) {
+      if (incomingData.steer &gt; 0) MegaSerial.println("MOVE:RGT:150");
+      else MegaSerial.println("MOVE:LFT:150");
+  }
+</code></pre>
+<p>}
+}</p>
+<p>void setup() {
+  Serial.begin(115200);
+  MegaSerial.begin(9600, SERIAL_8N1, 16, 17);</p>
+<p>pinMode(MODE_BUTTON, INPUT_PULLUP);
+  Wire.begin(21, 22);</p>
+<p>// 1. ESP-NOW Setup
+  WiFi.mode(WIFI_STA);
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error initializing ESP-NOW");
+  }
+  esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));</p>
+<p>// 2. Hardware Init
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) Serial.println("OLED Fail");
+  if (!rtc.begin()) Serial.println("RTC Fail");
+  if (!mpu.begin()) Serial.println("MPU Fail");
+  if (!SD.begin(SD_CS)) Serial.println("SD Fail");</p>
+<p>// 3. Connect WiFi (Optional for Telemetry)
+  WiFi.begin(ssid, password);
+}</p>
+<p>void loop() {
+  // รับข้อมูลจาก Mega (Sensors)
+  if (MegaSerial.available()) {
+    String megaData = MegaSerial.readStringUntil('\n');
+    parseMegaData(megaData);
+  }</p>
+<p>// อ่าน IMU
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&amp;a, &amp;g, &amp;temp);
+  telemetry.pitch = atan2(a.acceleration.y, a.acceleration.z) * 180.0 / PI;
+  telemetry.roll = atan2(a.acceleration.x, a.acceleration.z) * 180.0 / PI;</p>
+<p>updateOLED();
+  delay(100); 
+}</p>
+<p>void parseMegaData(String data) {
+  if (data.startsWith("DIST:")) {
+    // Parse distances and update telemetry struct
+  }
+}</p>
+<p>void updateOLED() {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setCursor(0,0);
+  display.printf("MODE: %d\n", incomingData.mode);
+  display.printf("SPD: %d STR: %d\n", incomingData.speed, incomingData.steer);
+  display.printf("F-DIST: %d\n", telemetry.distFront);
+  display.display();
+}</p>
+<pre><code>
+**หมายเหตุสำคัญ:**
+1. **PlatformIO:** โค้ดนี้รองรับทั้ง Arduino IDE และ PlatformIO (แนะนำ PlatformIO สำหรับการจัดการ Library ที่ง่ายกว่า)
+2. **Libraries Required:** ดูรายการใน `platformio.ini` หรือติดตั้งผ่าน Arduino Library Manager
+3. **WiFi Configuration:** เปลี่ยน `YOUR_WIFI_SSID`, `YOUR_WIFI_PASSWORD`, และ `YOUR_PC_IP` ให้ตรงกับระบบของคุณ
+4. **Data Format:** Mega ต้องส่งข้อมูลในรูปแบบ `DIST:25,80,40,42` (Front, Back, Left, Right)
+5. **Code Optimization:** โค้ดได้รับการปรับปรุงให้กระชับและใช้ Function Prototypes สำหรับ PlatformIO
+
+---
+
+### ฝั่ง ESP32-CAM (Vision System)
+รับผิดชอบ: บันทึกภาพลง SD Card เมื่อได้รับคำสั่ง
+
+**ฟีเจอร์:**
+- บันทึกภาพลง MicroSD Card เมื่อได้รับคำสั่ง 'C'
+- รองรับ Stream ภาพผ่าน WiFi (สำหรับ Dashboard - ขั้นสูง)
+- รับคำสั่งผ่าน Serial จาก ESP32 Main
+
+#### PlatformIO Configuration
+สำหรับ ESP32-CAM สร้างไฟล์ `platformio.ini`:
+
+```ini
+[env:esp32cam]
+platform = espressif32
+board = esp32cam
+framework = arduino
+monitor_speed = 115200
+</code></pre>
+<h4 id="esp32-cam-code-optimized">ESP32-CAM Code (Optimized)</h4>
+<pre><code class="language-cpp">#include &quot;esp_camera.h&quot;
+#include &quot;FS.h&quot;
+#include &quot;SD_MMC.h&quot;
+
+// AI-Thinker Pin Map
+#define PWDN_GPIO_NUM     32
+#define RESET_GPIO_NUM    -1
+#define XCLK_GPIO_NUM      0
+#define SIOD_GPIO_NUM     26
+#define SIOC_GPIO_NUM     27
+#define Y9_GPIO_NUM       35
+#define Y8_GPIO_NUM       34
+#define Y7_GPIO_NUM       39
+#define Y6_GPIO_NUM       36
+#define Y5_GPIO_NUM       21
+#define Y4_GPIO_NUM       19
+#define Y3_GPIO_NUM       18
+#define Y2_GPIO_NUM        5
+#define VSYNC_GPIO_NUM    25
+#define HREF_GPIO_NUM     23
+#define PCLK_GPIO_NUM     22
+
+int photoCount = 0;
+
+void setup() {
+  Serial.begin(115200);
+
+  camera_config_t config;
+  config.ledc_channel = LEDC_CHANNEL_0;
+  config.ledc_timer = LEDC_TIMER_0;
+  config.pin_d0 = Y2_GPIO_NUM;
+  config.pin_d1 = Y3_GPIO_NUM;
+  config.pin_d2 = Y4_GPIO_NUM;
+  config.pin_d3 = Y5_GPIO_NUM;
+  config.pin_d4 = Y6_GPIO_NUM;
+  config.pin_d5 = Y7_GPIO_NUM;
+  config.pin_d6 = Y8_GPIO_NUM;
+  config.pin_d7 = Y9_GPIO_NUM;
+  config.pin_xclk = XCLK_GPIO_NUM;
+  config.pin_pclk = PCLK_GPIO_NUM;
+  config.pin_vsync = VSYNC_GPIO_NUM;
+  config.pin_href = HREF_GPIO_NUM;
+  config.pin_sscb_sda = SIOD_GPIO_NUM;
+  config.pin_sscb_scl = SIOC_GPIO_NUM;
+  config.pin_pwdn = PWDN_GPIO_NUM;
+  config.pin_reset = RESET_GPIO_NUM;
+  config.xclk_freq_hz = 20000000;
+  config.pixel_format = PIXFORMAT_JPEG;
+  config.frame_size = FRAMESIZE_VGA;  // 640x480
+  config.jpeg_quality = 12;
+  config.fb_count = 1;
+
+  if (esp_camera_init(&amp;config) != ESP_OK) return;
+  if (!SD_MMC.begin()) Serial.println(&quot;SD Fail&quot;);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();
+    if (cmd == 'C') {
+      camera_fb_t * fb = esp_camera_fb_get();
+      if (!fb) return;
+      String path = &quot;/photo_&quot; + String(++photoCount) + &quot;.jpg&quot;;
+      File file = SD_MMC.open(path.c_str(), FILE_WRITE);
+      if (file) {
+        file.write(fb-&gt;buf, fb-&gt;len);
+        file.close();
+      }
+      esp_camera_fb_return(fb);
+    }
+  }
+}
+</code></pre>
+<p><strong>หมายเหตุ:</strong>
+- โค้ดนี้เน้นความเรียบง่ายและประสิทธิภาพสูงสุด
+- ใช้ VGA resolution (640x480) เพื่อความเร็วในการบันทึก
+- รับคำสั่ง 'C' จาก ESP32 Main ผ่าน Serial เพื่อถ่ายภาพ
+- ภาพจะถูกบันทึกเป็น <code>/photo_1.jpg</code>, <code>/photo_2.jpg</code>, ...</p>
+<hr />
+<h2 id="3-nextjs-dashboard">3. การเชื่อมต่อกับ Next.js Dashboard</h2>
+<h3 id="_1">แนวคิดการทำงาน</h3>
+<ol>
+<li><strong>ESP32-CAM</strong> ทำหน้าที่เป็น HTTP Server ส่ง MJPEG Stream</li>
+<li><strong>Next.js Dashboard</strong> ดึงภาพจาก ESP32-CAM ผ่าน <code>&lt;img src="http://[ESP32-CAM-IP]/stream" /&gt;</code></li>
+<li><strong>ESP32 Main</strong> ส่งข้อมูลเซนเซอร์ไปยัง Next.js ผ่าน WebSocket หรือ HTTP POST</li>
+</ol>
+<h3 id="dashboard-structure-nextjs">ตัวอย่าง Dashboard Structure (Next.js)</h3>
+<pre><code>micro-ai-robot-rover/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── rover/
+│   │   │       ├── command/route.ts    # รับคำสั่งจาก UI
+│   │   │       └── telemetry/route.ts  # รับข้อมูลจาก ESP32
+│   │   ├── dashboard/
+│   │   │   └── page.tsx                # หน้า Dashboard หลัก
+│   ├── components/
+│   │   ├── VideoFeed.tsx               # แสดงภาพจาก ESP32-CAM
+│   │   ├── ControlPanel.tsx            # ปุ่มควบคุม
+│   │   └── StatusMonitor.tsx           # แสดงค่าเซนเซอร์
+</code></pre>
+<h3 id="component-videofeed">ตัวอย่าง Component: VideoFeed</h3>
+<pre><code class="language-typescript">// src/components/VideoFeed.tsx
+'use client';
+
+export default function VideoFeed({ cameraIP }: { cameraIP: string }) {
+  return (
+    &lt;div className=&quot;relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden&quot;&gt;
+      &lt;img 
+        src={`http://${cameraIP}/stream`}
+        alt=&quot;Rover Camera Feed&quot;
+        className=&quot;w-full h-full object-cover&quot;
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
