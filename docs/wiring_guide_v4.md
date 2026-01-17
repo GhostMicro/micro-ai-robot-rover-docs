@@ -17,6 +17,7 @@
 
 ### A. ESP32 Receiver (Gateway)
 No change in wiring. Just acts as a bridge.
+
 | Component | Pin | ESP32 GPIO | Note |
 | :--- | :--- | :--- | :--- |
 | **STM32 Link** | RX2 | 16 | Connect to STM32 TX (PB10) |
@@ -68,30 +69,60 @@ No change in wiring. Just acts as a bridge.
 To ensure long-term stability and protection, add these discrete components:
 
 **1. Power Control & Monitoring (The "Cockpit")**
-*   **Main Switch:** Connect in **Series** with Battery (+) before everything else.
-*   **V/A Meter (Panel):**
-    *   **Voltmeter:** Connect after Main Switch (Parallel).
-    *   **Ammeter:** Connect in Series (after Switch, before Load).
-    *   *Effect:* You can see battery health and motor load instantly without checking the PC.
+**CORE UPDATE:** Using **H969-U V2.0 (The Green Power Bank Board)**.
+*   **Battery:** Use **18650 Li-Ion** (3.7V) connected in Parallel.
+*   **Connection:** Connect Battery (+) to **B+** and (-) to **B-**.
+*   **Output:** Take 5V from the **USB Output** (solder to pads or use USB cable) to system `VIN/5V`.
+
+```mermaid
+graph LR
+    BAT[Li-Ion 3.7V (18650)] -->|Parallel| BOARD[H969-U V2.0]
+    BOARD -->|B+| BAT_P(+)
+    BOARD -->|B-| BAT_N(-)
+    
+    BOARD -->|USB Out 5V| SW[Main Switch]
+    SW -->|5V Regulated| SYS[System Power Bus (5V)]
+    
+    SYS -->|Red| RX[ESP32 Receiver]
+    SYS -->|Red| BR[STM32 Brain]
+    
+    subgraph "Built-in Features"
+    BOARD --> LCD[LCD Info Display %]
+    BOARD --> CHG[Micro USB Charge Port]
+    end
+```
+*   **Main Switch:** Connect wires from the H969-U 5V Output -> Switch -> System.
+*   **No Regulator Needed:** The H969-U does the 5V Boost automatically!
 
 **2. Power Conditioning (Filter Noise)**
 *   **Electrolytic Capacitor (100µF - 470µF 16V):** Place across valid `+5V` and `GND` rails (at entry point).
-*   **Ceramic Capacitor (0.1µF / Code 104):** Place close to **every** module's VCC/GND (ESP32, STM32, OLED) to filter high-frequency noise.
-*   **Diode (1N4001):** Series with Main Battery (+) for Reverse Polarity Protection.
+*   **Ceramic Capacitor (0.1µF / Code 104):** Place close to **every** module's VCC/GND (ESP32, STM32, OLED).
 
 **3. Buzzer Driver Circuit (Loud & Safe)**
-Do not connect Buzzer directly to MCU Pin. Use a Transistor switch:
-*   **NPN Transistor (BC547 / 2N3904):**
-    *   **Collector (C):** To Buzzer (-) -> Buzzer (+) to 5V.
-    *   **Emitter (E):** To GND.
-    *   **Base (B):** Via **1kΩ Resistor** to STM32 Pin PB0.
-*   **Flyback Diode (1N4148):** Connect across Buzzer terminals (Cathode to +5V) to absorb spikes.
+*Use this because the Buzzer draws too much current for the STM32 pin.*
+```mermaid
+graph TD
+    P[STM32 Pin PB0] -->|1k Resistor| B(Base)
+    B --> T[NPN Transistor]
+    
+    VCC[5V] -->|Red| BUZ[Buzzer (+)]
+    BUZ -->|Black| C(Collector)
+    C --> T
+    
+    T --> E(Emitter)
+    E --> GND[Ground]
+```
+*   **Check:** Transistor Emitter -> GND, Collector -> Buzzer -.
 
 **4. Motor Noise Suppression**
-*   **Ceramic Cap (0.1µF / 104):** Solder directly across the terminals of each DC motor to reduce RF interference.
+*   **Ceramic Cap (0.1µF / 104):** Solder directly across the terminals of each DC motor.
 
-**4. Logic Level Converter (Discrete Option)**
-If not using a module, build a voltage divider for **5V TX -> 3.3V RX**:
-*   **R1 (2.2kΩ):** Signal 5V -> STM32 RX.
-*   **R2 (3.3kΩ):** STM32 RX -> GND.
-*(Note: For 3.3V TX -> 5V RX, direct connection is usually safe enough for logic high, or use a 2N7000 MOSFET).*
+**5. Logic Level Converter (Voltage Divider)**
+*Protecting STM32 (3.3V) from Nano (5V)*
+```mermaid
+graph LR
+    N[Nano TX (5V)] -->|R1 2.2k| M[Middle Point]
+    M -->|Wire| S[STM32 RX (3.3V)]
+    M -->|R2 3.3k| G[Ground]
+```
+If not using a module, build a **Voltage Divider** for 5V TX -> 3.3V RX.

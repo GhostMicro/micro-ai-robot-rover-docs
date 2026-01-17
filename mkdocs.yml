@@ -13,8 +13,20 @@ theme:
 nav:
   - หน้าแรก (Home): index.md
   - ภาพรวมและฮาร์ดแวร์ (Overview): overview.md
-  - คู่มือการต่อสาย (Wiring Guide): wiring_guide_v4.md
-  - 📦 คลังอุปกรณ์ (Inventory): inventory.md
+  - คู่มือการต่อสาย - Wiring Guide (v4): wiring_guide_v4.md
+  - Bottom Layer (Drive): bottom_layer_wiring.md
+  - Component Inventory: inventory.md
+  - DMA Performance Guide: dma_guide.md
+  - DMA Implementation: dma_implementation.md
+  - Architecture v4.0 (3-Tier): architecture_v4.md
+  - Wiring Guide v4.0 (Complete): wiring_v4_complete.md
+  - Power Circuit Diagram: power_circuit_v4.md
+  - Power Budget Analysis: power_budget_v4.md
+  - ESP32 Commander Setup: esp32_commander_setup.md
+  - Camera Recording Options: camera_recording_options.md
+  - Camera Control Architecture: camera_control_architecture.md
+  - ESP32-CAM Programming Guide: esp32cam_programming.md
+  - Dashboard Camera Integration: dashboard_camera_guide.md
   - Transmitter Hardware (รีโมท): transmitter_setup.md
   - การสร้างสมองและโค้ด (Brain Setup): brain_setup.md
   - การสร้างร่างกาย (Body Setup): body_assembly.md

@@ -2,85 +2,108 @@
 
 This document serves as a database of available components to ensure future designs utilize existing resources efficiently.
 
-## 🧠 Integrated Circuits (ICs)
-| Component | Description | Potential Uses |
-| :--- | :--- | :--- |
-| **NE555 (Classic)** | Precision Timer | **Must Use:** Hardware Watchdog (Reset STM32 if frozen), Backup Siren (Police Tone), PWM generator independent of MCU. |
-| **LM7805** | 5V Voltage Regulator | Stable 5V for Logic/Sensors from higher voltage battery. |
-| **LM7812** | 12V Voltage Regulator | 12V rail for high-power LEDs or solenoid (if applicable). |
+## 🧠 SBCs & Microcontrollers
+| Component | Qty | Description | Potential Uses |
+| :--- | :---: | :--- | :--- |
+| **ESP32 WROOM** | 10 | High-performance WiFi/BT MCU | Main robot controller, heavy computation, camera tasks. |
+| **Arduino Nano** | 1 | Classic 5V MCU | Body controller, Motor I/O, Encoder handling. |
+| **Arduino Pro Mini 3.3V** | 5+ | Small form factor 3.3V MCU | Perfect Slave for STM32, dedicated sensor hubs. |
+| **Arduino Pro Mini 5V** | 5 | Small form factor 5V MCU | Driving servos/LEDs via optocouplers. |
+| **Arduino Mega 2560** | 1 | High I/O MCU | Master controller for complex logic. |
+| **STM32 (Blue Pill)** | 5 | High-speed 32-bit MCU | Main processor for Ghost Micro Rover. |
+| **ESP8266 (D1 Mini)** | 3 | WiFi / IoT Node | Wireless remote sensors, ESP-NOW nodes. |
+| **Arduino Uno R3 (DIP/SMD)**| 2 | Standard Prototyping Board | Desktop testing, shield compatibility. |
+| **Arduino D1** | 1 | ESP8266 in Uno form factor | WiFi projects requiring Uno shields. |
+| **ATtiny85** | 1 | Mini MCU (8-pin) | Dedicated sensor processor, Smart LED controller. |
+| **Raspberry Pi 4B (4G)** | 1 | High-power SBC | Edge AI, computer vision, server host. |
+| **Raspberry Pi Zero** | 1 | Compact Linux SBC | Low-power IoT gateway, small Linux projects. |
+| **TTGO (ESP32 w/ Display)** | 4 | ESP32 board with OLED/TFT | Handheld controllers, status monitors. |
+| **Air101** | 4 | LuatOS based MCU | Efficient, low-power scripts, specialized tasks. |
+| **ESP-01** | 5 | Smallest ESP8266 module | Tiny WiFi bridge, sensor nodes. |
+| **NodeMcu Base ver 1.0** | 10 | Breadboard breakout shield | Easy wiring for NodeMcu/ESP8266 projects. |
 
-## 🕹️ Transistors & Drivers
-| Type | Part Number | Description | Application |
-| :--- | :--- | :--- | :--- |
-| **NPN** | **2N3904** | General Purpose | Signal switching, LED driver (Low current), Buzzer driver. |
-| **NPN** | **BC547** | General Purpose | Logic inverter, Level Shifter (Discrete). |
-| **NPN** | **C9013** | High Current Audio | Speaker driver, Small motor driver (~500mA). |
-| **PNP** | **2N3906** | General Purpose | High-side switch, Complementary pair with 3904. |
-| **PNP** | **BC557** | General Purpose | High-side logic switch. |
-| **NPN** | **S8050** | High Current | Medium power switching (Relays, High brightness LEDs). |
-| **?** | **CTBC5478** | *(Need Verification)* | Likely general purpose variant. |
-| **?** | **F708** | *(Need Verification)* | Special function? |
+## 📡 Wireless & Communication
+| Component | Qty | Description | Application |
+| :--- | :---: | :--- | :--- |
+| **NRF24L01** | 2 | 2.4GHz Transceiver | Short-range low power robot-to-remote comms. |
+| **NRF24L01 PA LNA** | 2 | Long-range Transceiver | High-power communication with external antenna. |
+| **HC-05 (ZS-040)** | 1 | Bluetooth Serial Module | Smartphone control, wireless debugging. |
+| **I2C Level Converter** | 1 | 4/8-ch Logic Shifter | Interfacing 5V sensors with 3.3V MCUs (ESP32/STM32). |
+| **WCMCU-0108** | 1 | 8-bit Level Shifter | High-speed logic translation. |
+| **NFC Reader (RC522)** | 2 | RFID/NFC Module | Security key, personality switching. |
 
-## 🧠 Microcontrollers & Isolation
-| Component | Description | Potential Uses |
-| :--- | :--- | :--- |
-| **Arduino Nano** | **Current Body Controller** | Handles Motor I/O and Encoders (5V logic). Keep utilizing this! |
-| **ESP8266 (D1 Mini)** | WiFi / IoT Node | Excellent for **Wireless Remote Sensors** (e.g., place in room corner to send temp/activity data to Robot via ESP-NOW). |
-| **Arduino Pro Mini** | **Priority Use** (Have many) | **3.3V Version:** Perfect Slave for STM32 (Direct Connect). **5V Version:** Great for driving Servos/LEDs via Optocoupler. Use as dedicated "Sensor Hubs". |
-| **ATtiny85** | Mini MCU (8-pin) | Dedicated sensor processor, Smart LED controller (Neopixel), Independent watchdog. |
-| **ATmega8-16PU** | Classic AVR MCU | Slave I/O expander, Standalone subsystem controller. |
-| **PC817** | Optocoupler | **High Priority:** 100% Electrical Isolation between Motor Power and STM32 Logic. |
+## 🔋 Power & Battery Management
+| Component | Qty | Description | Application |
+| :--- | :---: | :--- | :--- |
+| **H969-U V2.0** | 5 | Power Bank Module (w/ LCD) | **Main Power Hub:** 3.7V to 5V Boost + Charging + Display. |
+| **H913-A V2.0** | 1 | Battery Management | Alternative charging/boost solution. |
+| **Dual 18650 Shield V8**| 2 | Battery Holder + 5V/3V Boost | Portable power for hand-held controllers or small robots. |
+| **TP4056 Module** | 5 | Li-ion Battery Charger | USB charging for individual 18650 cells. |
+| **CN3791 MPPT Solar** | 1 | Solar Charger | Outdoor robot power management. |
+| **LM2596 Buck Converter**| 3 | Step-Down (3A Max) | High-current regulated rails (e.g., 5V from 12V). |
+| **HW-106 Boost Module** | 1 | Step-Up DC-DC | Boosting low voltage batteries for logic rails. |
+| **BMS 1S Protector** | 1 | Battery Protection Circuit | Safety for single Li-ion cells. |
+| **HW-313 / HW-613** | 1 | Mini Buck/Boost | Compact power regulation. |
+| **2-Port Buck Conv.** | 2 | Step-Down w/ Dual Output | Clean power distribution. |
+| **Voltage Sensor** | 1 | Voltage Divider Module | Monitoring battery health via ADC. |
+
+## 📡 Sensors & Perception
+| Component | Qty | Description | Application |
+| :--- | :---: | :--- | :--- |
+| **HC-SR04** | 10 | Ultrasonic Distance | Basic obstacle avoidance. |
+| **US-016** | 1 | Analog Ultrasonic Sensor | High-precision distance with analog output. |
+| **HC-SR501** | 10 | PIR Motion Sensor | Security features, human detection. |
+| **BME280 / BMP280** | 2 | Temp/Pressure/Humidity | Environmental scanning, altitude sensing. |
+| **HW-611 / BMP180** | 1 | Barometric Pressure | Basic altitude/weather monitoring. |
+| **GY-87 (10DOF)** | 1 | IMU + Mag + Baro | Complete navigation sensor (MPU6050 + HMC5883L + BMP180). |
+| **GY-521 (MPU6050)** | 1 | 6-Axis Gyro/Accel | Self-balancing, orientation tracking. |
+| **LDR Photoresistor** | 2 | Light Dependent Resistor | Automatic headlights, light seeking behavior. |
+| **GRAYSCALE HY-S126** | 1 | Line/Edge Tracking | Floor color detection, cliff detection. |
+| **SW-420** | 1 | Vibration Sensor | Impact detection, anti-tamper. |
+| **Soil Moisture** | 1 | Capacitive/Resistive | Terrestrial environment sensing. |
+| **DHT11** | 10 | Temp & Humidity Sensor | Basic environmental monitoring. |
+| **DHT22** | 1 | High-precision Temp/Hum | Precise environmental data. |
+
+## ⚙️ Motor Drivers & Control
+| Component | Qty | Description | Application |
+| :--- | :---: | :--- | :--- |
+| **PCA9685 16CH PWM** | 1 | I2C Servo/PWM Driver | **Priority:** Control up to 16 servos for robot legs/limbs. |
+| **Servo SG92R** | 2 | High Torque Micro Servo | Robot arm or heavy linkage control. |
+| **Servo SG90** | 6 | Standard Micro Servo | Basic joint movement, pan/tilt. |
+| **L293D Shield** | 3 | Quad Motor Driver Shield | Driving DC motors from Arduino Uno/Mega. |
+| **Mosfet SW-M211** | 10 | High-current Switch | PWM control for high power LEDs or pumps. |
+| **PWM Speed Controller**| 1 | DC Motor Dimmer | Manual motor speed adjustment. |
+| **HW-070 Mini PWM** | 1 | Micro PWM Driver | Compact motor/LED control. |
+
+## 📟 Human Interface & Displays
+| Component | Qty | Description | Application |
+| :--- | :---: | :--- | :--- |
+| **Joystick XY Module** | 10 | Dual Axis Analog + Button | Building various handheld remote controllers. |
+| **4x4 Membrane Key** | 1 | Matrix Keyboard | PIN entry, mode selection. |
+| **Tach Switch** | 50 | Momentary Push Buttons | Reset buttons, bumper switches, limit switches. |
+| **4-Digit 7-Segment** | 1 | Numeric Display | Error codes, battery %, or timers. |
+| **LCD 1602 / 1604** | 1 | Character LCD | Scrolling status logs and system info. |
+| **V/A Panel Meter** | 1 | Analog/Digital Meter | Real-time hardware monitoring. |
 
 ## 📐 Logic & Analog ICs
 | Component | Description | Application |
 | :--- | :--- | :--- |
-| **CD4051BE** | 8-Channel Analog Multiplexer | Expand ADC pins (Read 8 sensors with 1 STM32 pin). |
-| **CD4511BE** | BCD to 7-Segment Latch/Decoder | Drive a retro numeric display (0-9) using only 4 pins. |
-| **CD4017BE** | Decade Counter | Running light effects (Knight Rider style) without coding. |
-| **CD4027BE** | Dual JK Flip-Flop | Toggle switch logic, Hardware state memory. |
-| **MC14011BCP** | Quad 2-Input NAND Gate | Basic logic glue, Debounce circuit, Oscillator. |
-| **MC14029BCP** | Presettable Up/Down Counter | Hardware event counting. |
+| **NE555** | Precision Timer | Hardware watchdog, pulse generation. |
+| **CD4051BE** | 8-Channel Analog Mux | Expand ADC pins for multiple sensors. |
+| **CD4511BE** | BCD to 7-Segment | Hardware-driven numeric display. |
+| **CD4017BE** | Decade Counter | LED chaser effects, hardware step sequencing. |
+| **CD4027BE** | Dual JK Flip-Flop | State memory, toggle logic. |
+| **MC14011 / 14029** | NAND Gates / Counter | Custom hardware logic glue. |
+| **Transistors** | 2N3904, BC547, S8050, etc. | Signal switching, small drivers. |
 
-## 📟 Displays & Human Interface
-| Component | Description | Application |
+## 🧱 Passives & Protection
+| Component | Description | Use Case |
 | :--- | :--- | :--- |
-| **4-Digit 7-Segment** | Numeric LED | Show Battery Level (%), Countdown Timer, or Error Codes (e.g., "E-01"). |
-| **LCD 1604 / 1602** | Character LCD | Display Status Logs ("System Ready", "Mode: Scout"). Retro Look! |
-| **V/A Panel Meter** | Digital Meter | **Real-time Voltage & Current** monitoring (Hardware Dashboard). Mount on Robot chassis. |
-| **Switches** | Toggle / Rocker | **Main Power Cut-off.** Essential for safety. |
-
-## ⚡ Diodes & Protection
-| Part Number | Type | Max Current | Use Case |
-| :--- | :--- | :--- | :--- |
-| **1N4001** | Rectifier | 1A | Reverse polarity protection (Main input), Bridge rectifier. |
-| **1N4148** | Signal / Switching | 300mA | Back-EMF protection (Relays/Buzzers), Logic gates (Diode logic). |
-| **1N914** | Signal | 300mA | Similar to 4148, High speed switching. |
-
-## 🔋 Passive Components
-| Category | Value / Code | Description | Use Case |
-| :--- | :--- | :--- | :--- |
-| **Potentiometer** | **VR504** (500kΩ) | Trim Pot | Adjustable sensitivity, Analog input calibration. |
-| **Capacitor** | **105** (1µF) | Ceramic / Mylar | Audio coupling, Timing (555 Timer). |
-| **Capacitor** | **Electrolytic** | (Various) | Power rail smoothing, Bulk energy storage. |
-| **Resistor** | **2W - 4W** | High Power | Current sensing, Dummy load, High power LED limiters. |
-
-## 🕵️ Recommended Scavenger Hunt (Things to look for!)
-Since you have 100+ modules, please look for these specific ones to upgrade Ghost Micro:
-
-| Function | Recommended Module | Why? |
-| :--- | :--- | :--- |
-| **Gyro/IMU** | **MPU6050** or **BNO055** | Essential for self-balancing or precise turning (90/180 degrees). |
-| **Distance** | **VL53L0X** (Laser) or **HC-SR04** (Ultrasonic) | Laser is faster/smaller. Ultrasonic is cheaper/robust. |
-| **Display** | **OLED 0.96 (I2C)** | You likely use this on the remote, but one on the robot face would be cool. |
-| **Environment** | **DHT11 / DHT22** | Temp/Humidity monitoring. |
-| **Light** | **LDR (Photoresistor)** | Auto-headlights when dark. |
-
-## 🔮 Future Potentials (NFC & Cheap Sensors)
-*   **NFC/RFID Readers (RC522):** You mentioned having many. We can use these for:
-    *   **Robot Identity:** Tap card to switch robot "Personality" (Aggressive/Passive).
-    *   **Security Key:** Unlock controls only with your Master Card.
-*   **Budget Sensors:** (IR Obstacle Avoidance, Flame Sensors, Tilt Switches)
-    *   Great for swarm robotics or "expendable" scout units.
+| **PC817** | Optocoupler | **Safety:** Isolate logic from noisy motor power. |
+| **Diodes** | 1N4001, 1N4148, 1N914 | Reverse polarity & Back-EMF protection. |
+| **Potentiometers** | VR504 (500kΩ) | Sensitivity/Analog adjustment. |
+| **Capacitors** | Ceramic, Electrolytic | Power filtering, timing circuits. |
+| **Resistors** | 2W - 4W, Standard | Current limiting, pull-ups/downs. |
 
 ---
-**📝 Agent Note:** I will check this list before suggesting new hardware purchase. We will prioritize using these components in all future schematic designs.
+**📝 Agent Note:** This inventory is updated frequently. Prioritize using existing modules before suggesting new purchases.
