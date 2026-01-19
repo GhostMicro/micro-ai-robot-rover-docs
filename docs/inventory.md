@@ -11,6 +11,7 @@ This document serves as a database of available components to ensure future desi
 | **Arduino Pro Mini 5V** | 5 | Small form factor 5V MCU | Driving servos/LEDs via optocouplers. |
 | **Arduino Mega 2560** | 1 | High I/O MCU | Master controller for complex logic. |
 | **STM32 (Blue Pill)** | 5 | High-speed 32-bit MCU | Main processor for Ghost Micro Rover. |
+| **Pixhawk 2.4.8** | 🛒 | Advanced Flight Controller | **V5 Upgrade:** Primary stabilization and Nav Brain. |
 | **ESP8266 (D1 Mini)** | 3 | WiFi / IoT Node | Wireless remote sensors, ESP-NOW nodes. |
 | **Arduino Uno R3 (DIP/SMD)**| 2 | Standard Prototyping Board | Desktop testing, shield compatibility. |
 | **Arduino D1** | 1 | ESP8266 in Uno form factor | WiFi projects requiring Uno shields. |
@@ -28,6 +29,8 @@ This document serves as a database of available components to ensure future desi
 | **NRF24L01** | 2 | 2.4GHz Transceiver | Short-range low power robot-to-remote comms. |
 | **NRF24L01 PA LNA** | 2 | Long-range Transceiver | High-power communication with external antenna. |
 | **HC-05 (ZS-040)** | 1 | Bluetooth Serial Module | Smartphone control, wireless debugging. |
+| **FlySky FS-iA6B** | 🛒 | 2.4GHz 6CH Receiver | **V5 Upgrade:** Manual RC control (iBus/PPM). |
+| **PPM Encoder** | 1 | PWM to PPM Signal Converter | **V5 Upgrade:** Connect non-PPM receivers to Pixhawk. |
 | **I2C Level Converter** | 1 | 4/8-ch Logic Shifter | Interfacing 5V sensors with 3.3V MCUs (ESP32/STM32). |
 | **WCMCU-0108** | 1 | 8-bit Level Shifter | High-speed logic translation. |
 | **NFC Reader (RC522)** | 2 | RFID/NFC Module | Security key, personality switching. |
@@ -36,6 +39,7 @@ This document serves as a database of available components to ensure future desi
 | Component | Qty | Description | Application |
 | :--- | :---: | :--- | :--- |
 | **H969-U V2.0** | 5 | Power Bank Module (w/ LCD) | **Main Power Hub:** 3.7V to 5V Boost + Charging + Display. |
+| **Power Module GM V1.0**| 1 | Pixhawk Power & Monitoring | **V5 Upgrade:** Clean 5.3V for FC + Volt/Curr Sensing. |
 | **H913-A V2.0** | 1 | Battery Management | Alternative charging/boost solution. |
 | **Dual 18650 Shield V8**| 2 | Battery Holder + 5V/3V Boost | Portable power for hand-held controllers or small robots. |
 | **TP4056 Module** | 5 | Li-ion Battery Charger | USB charging for individual 18650 cells. |
@@ -56,6 +60,8 @@ This document serves as a database of available components to ensure future desi
 | **BME280 / BMP280** | 2 | Temp/Pressure/Humidity | Environmental scanning, altitude sensing. |
 | **HW-611 / BMP180** | 1 | Barometric Pressure | Basic altitude/weather monitoring. |
 | **GY-87 (10DOF)** | 1 | IMU + Mag + Baro | Complete navigation sensor (MPU6050 + HMC5883L + BMP180). |
+| **Pixhawk GPS (M8N)**| 🛒 | High-gain GPS + Compass | **V5 Upgrade:** Autonomous navigation & RTH. |
+| **Crius I2C Hub**   | 1 | I2C Splitter / Expansion | **V5 Upgrade:** Multiplex Compass, OLED, and MCUs. |
 | **GY-521 (MPU6050)** | 1 | 6-Axis Gyro/Accel | Self-balancing, orientation tracking. |
 | **LDR Photoresistor** | 2 | Light Dependent Resistor | Automatic headlights, light seeking behavior. |
 | **GRAYSCALE HY-S126** | 1 | Line/Edge Tracking | Floor color detection, cliff detection. |
@@ -63,6 +69,7 @@ This document serves as a database of available components to ensure future desi
 | **Soil Moisture** | 1 | Capacitive/Resistive | Terrestrial environment sensing. |
 | **DHT11** | 10 | Temp & Humidity Sensor | Basic environmental monitoring. |
 | **DHT22** | 1 | High-precision Temp/Hum | Precise environmental data. |
+| **INMP441 (I2S Mic)** | 🛒 | MEMS Digital Microphone | **V4.1:** Hearing/Streaming audio to Dashboard. |
 
 ## ⚙️ Motor Drivers & Control
 | Component | Qty | Description | Application |
@@ -74,6 +81,8 @@ This document serves as a database of available components to ensure future desi
 | **Mosfet SW-M211** | 10 | High-current Switch | PWM control for high power LEDs or pumps. |
 | **PWM Speed Controller**| 1 | DC Motor Dimmer | Manual motor speed adjustment. |
 | **HW-070 Mini PWM** | 1 | Micro PWM Driver | Compact motor/LED control. |
+| **DFPlayer Mini** | 🛒 | MP3/Audio Player | **V4.1:** Speech/Playing clips from SD Card. |
+| **Speaker (8Ω 3W)** | 🛒 | Mini Speaker | Output for DFPlayer. |
 
 ## 📟 Human Interface & Displays
 | Component | Qty | Description | Application |

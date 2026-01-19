@@ -23,22 +23,23 @@
 
 ## 🔋 Power Rail Analysis
 
-### Brain Rail (5V from H969-U)
-**Consumers:**
-- ESP32 Commander: 240 mA
-- STM32F103: 80 mA
-- Arduino Nano: 60 mA
-- BNO055: 12 mA
-- GPS: 60 mA
-- OLED: 20 mA
-- Ultrasonics: 60 mA
-- Buzzer: 30 mA
-- Encoders: 10 mA
+### Brain & Logic Rail (from Dual 18650 Shield V8)
+**Consumers (3.3V/5V Combined via Shield):**
+- ESP32 Commander: 240 mA @ 3.3V (Rail: 3.3V)
+- STM32F103: 80 mA @ 3.3V (Rail: 3.3V)
+- OLED Display: 30 mA @ 3.3V (Rail: 3.3V)
+- Sensors (GPS, IMU, etc.): 100 mA @ 3.3V (Rail: 3.3V)
+- Arduino Nano: 60 mA @ 5V (Rail: 5V)
+- Ultrasonics: 60 mA @ 5V (Rail: 5V)
+- DFPlayer Mini: 500 mA @ 5V (Peak) (Rail: 5V)
 
-**Total: 572 mA @ 5V = 2.86W**
-
-**H969-U Capacity:** 2A @ 5V = 10W  
-**Margin:** 1.43A (71% headroom) ✅
+**Current Check:**
+*   **3.3V Rail Total:** ~450 mA
+    *   *Shield Capacity:* **1000 mA (1A)**
+    *   *Margin:* 550 mA (55% Headroom) ✅
+*   **5V Rail Total:** ~620 mA 
+    *   *Shield Capacity:* **3000 mA (3A)**
+    *   *Margin:* 2380 mA (79% Headroom) ✅
 
 ---
 
@@ -126,21 +127,19 @@ Camera Battery: 1x 18650 (2500mAh)
 
 ## 🎯 Recommendation
 
-### For Ghost Micro v4.0: **Option 2 (3x 18650 Shared)**
+### For Ghost Micro v4.2: **Single High-Power Shield Hub**
 
 **Reasons:**
-1. **Lightest:** 135g vs 180g (25% weight reduction)
-2. **Longest Runtime:** 3 hours vs 2 hours
-3. **Simpler Wiring:** One battery pack, two outputs
-4. **Cost Effective:** One less battery + holder
+1. **Standardized Power:** ใช้ **Dual 18650 Shield V8** (5V/3A, 3.3V/1A) เพียงตัวเดียวเพื่อความง่าย
+2. **True Rail Separation:** แยกโหลด 3.3V (Brain) ออกจาก 5V (Vision/Audio)
+3. **High Margin:** 5V 3A เหลือเฟือสำหรับ ESP32-CAM และ DFPlayer
 
 **Implementation:**
 ```
-3x 18650 Parallel Pack
-    ├─ (+) → Fuse 3A → H969-U IN+ → 5V OUT (Brain)
-    └─ (+) → Fuse 5A → L298N VCC (Motors)
-    
-Common GND for all
+Dual 18650 Shield V8
+    ├─ 3.3V Output → ESP32, STM32, OLED (Clean 3.3V Line)
+    ├─ 5V Output   → Nano, ESP32-CAM, DFPlayer (High Power Line)
+    └─ Battery Pins → L298N (Direct Motor Feed 3.7V - 4.2V)
 ```
 
 **Camera Power:**

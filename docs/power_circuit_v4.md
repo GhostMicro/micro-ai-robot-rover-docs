@@ -1,105 +1,74 @@
 # Ghost Micro v4.0 - Power Circuit Diagram ⚡
 
-## 🔋 Overview
-This guide details the **Power Distribution System** for Ghost Micro v4.0.
-We use a **3x 18650 Parallel Pack** to power 3 separate zones:
-1.  **Brain Zone (5V):** ESP32, STM32, Nano, Sensors (Critical)
-2.  **Camera Zone (5V):** ESP32-CAM (Isolated to prevent brownout)
-3.  **Motor Zone (3.7V):** L298N + TT Motors (High current)
-
+## 🔋 Overview (Inventory Optimized)
+เพื่อให้หุ่นยนต์เสถียรที่สุดโดยใช้ของที่มีในคลังแสง (**Dual 18650 Shield V8 จำนวน 2 ชุด**):
+1.  **Shield ชุดที่ 1 (Brain Zone):** ใส่ถ่าน 2 ก้อน จ่ายไฟให้ ESP32, STM32 และเซนเซอร์หลัก
+2.  **Shield ชุดที่ 2 (Power Zone):** ใส่ถ่านอีก 2 ก้อน จ่ายไฟให้ L298N (มอเตอร์) และ ESP32-CAM (กล้อง)
+*วิธีนี้จะทำให้ "ไฟกระชาก" จากมอเตอร์ไม่สามารถวิ่งไปกวนสมองกลได้ 100% ครับ*
 ---
 
-## 🔌 Master Wiring Diagram
+## 🔌 Master Wiring Diagram (Shield V8 Optimized)
 
 ```mermaid
 graph TD
-    %% styles
     classDef bat fill:#ffeb3b,stroke:#fbc02d,stroke-width:2px,color:black
     classDef mod fill:#e3f2fd,stroke:#2196f3,stroke-width:2px,color:black
     classDef mot fill:#ffebee,stroke:#ef5350,stroke-width:2px,color:black
-    classDef gnd fill:#000,stroke:#000,stroke-width:1px,color:white
 
-    subgraph BATTERY_PACK [Main Power Source]
-        BAT[3x 18650 Parallel<br/>3.7V 7500mAh]:::bat
-        SW[Main Switch]
-        FUSE[Fuse 10A]
+    subgraph POWER_HUB [Dual 18650 Shield V8]
+        BAT[2x 18650 Cells]:::bat
+        OUT_3V[3.3V / 1A Terminal]
+        OUT_5V[5V / 3A Terminal]
+        RAW_BAT[Battery +/- Pins]
     end
 
-    subgraph BRAIN_ZONE [Zone 1: Brain & Logic]
-        H969[H969-U Boost Module<br/>IN: 3.7V -> OUT: 5V 2A]:::mod
+    subgraph BRAIN_ZONE [Zone 1: Logic]
         ESP_MAIN[ESP32 Commander]
         STM[STM32 Controller]
-        NANO[Arduino Nano]
-        SENS[Sensors / GPS / IMU]
+        OLED[OLED Status]
     end
 
-    subgraph CAMERA_ZONE [Zone 2: Vision]
-        BUCK[LM2596 Buck Module<br/>IN: 3.7V -> OUT: 5V 3A]:::mod
+    subgraph HIGH_POWER_ZONE [Zone 2: Vision & Audio]
         CAM[ESP32-CAM]
+        DF[DFPlayer Mini]
     end
 
-    subgraph MOTOR_ZONE [Zone 3: Traction]
+    subgraph MOTOR_ZONE [Zone 3: Traction & Control]
         L298[L298N Driver]:::mot
-        M1[Motor FL]:::mot
-        M2[Motor FR]:::mot
-        M3[Motor RL]:::mot
-        M4[Motor RR]:::mot
+        MOTORS[4x TT Motors]:::mot
+        NANO[Arduino Nano]
     end
 
-    %% Wiring Connections
-    BAT --> SW --> FUSE
-    
-    %% Distribution
-    FUSE -->|3.7V| H969
-    FUSE -->|3.7V| BUCK
-    FUSE -->|3.7V High Current| L298
+    %% Connections
+    OUT_3V -->|Clean Rail| ESP_MAIN & STM & OLED
+    OUT_5V -->|Power Rail| CAM & DF & NANO
+    RAW_BAT -->|Raw Feed| L298
+    L298 --> MOTORS
 
-    %% Zone 1 Logic
-    H969 -->|5V Stable| ESP_MAIN
-    H969 -->|5V Stable| STM
-    H969 -->|5V Stable| NANO
-    H969 -->|5V Stable| SENS
-
-    %% Zone 2 Logic
-    BUCK -->|5V Isolated| CAM
-
-    %% Zone 3 Logic
-    L298 --> M1 & M2 & M3 & M4
-
-    %% Common Ground
-    GND[COMMON GROUND POINT]:::gnd
-    BAT --- GND
-    H969 --- GND
-    BUCK --- GND
-    L298 --- GND
-    ESP_MAIN --- GND
-    STM --- GND
-    NANO --- GND
-    CAM --- GND
+    %% Control Links
+    NANO -.->|Control| CAM
+    NANO -.->|Control| DF
+    NANO -.->|Control| L298
 ```
 
----
+## 🛠️ Step-by-Step Wiring (V8 Standard)
 
-## 🛠️ Step-by-Step Wiring
+### 1. The Power Hub (Shield V8)
+*   **Battery:** ใส่ถ่าน 18650 จำนวน 2 ก้อนลงในช่อง (เช็คขั้วให้ถูกตามศรชี้)
+*   **Master Logic:** ใช้ปุ่มสวิตช์บน Shield เพื่อเปิด/ปิดระบบไฟทั้งหมด
 
-### 1. Battery Pack Assembly
-*   **Components:** 3x 18650 Li-ion cells (3.7V each).
-*   **Configuration:** **Parallel (+ to +, - to -)**.
-*   **Output:** 3.7V - 4.2V, ~7500mAh.
-*   **Safety:** Add a **Master Switch** and **10A Fuse** on the positive (`+`) line immediately after the battery holder.
+### 2. Zone 1: Clean Logic (3.3V)
+*   ต่อจากช่อง **3.3V** บน Shield ไปที่ขา **3.3V** ของ ESP32, STM32 และ OLED
+*   *ไม่ต้องใส่ไดโอด* เพื่อให้บอร์ดได้รับไฟ 3.3V เต็มประสิทธิภาพ
 
-### 2. Zone 1: Brain Power (H969-U)
-This rail powers the intelligent components. It must be stable 5V.
-*   **Input:** Connect Battery `+` to H969-U `IN+`, Battery `-` to H969-U `IN-`.
-*   **Output:** Connect H969-U `OUT+` (5V) to the `5V` pins of ESP32, STM32, Nano.
-*   **Ground:** Connect H969-U `OUT-` to the `GND` pins of all MCUs.
+### 3. Zone 2: High Power (5V)
+*   ต่อจากช่อง **5V** บน Shield ไปที่ขา **5V** ของ ESP32-CAM, Nano และ DFPlayer
+*   **ควบคุม:** ต่อขา Output จาก Nano ไปสั่งงาน MOSFET/Relay เพื่อเปิด-ปิดไฟเลี้ยงของ ESP32-CAM และต่อ Serial ไปสั่งงาน DFPlayer
 
-### 3. Zone 2: Camera Power (LM2596)
-**CRITICAL:** The camera is isolated to prevent it from crashing the brain or brownout.
-*   **Input:** Connect Battery `+` to LM2596 `IN+`, Battery `-` to LM2596 `IN-`.
-*   **Adjust:** <span style="color:red">**IMPORTANT:** Rotate the trimmer screw on LM2596 until output is exactly 5V BEFORE connecting the camera!</span>
-*   **Output:** Connect LM2596 `OUT+` to ESP32-CAM `5V` pin.
-*   **Ground:** Connect LM2596 `OUT-` to ESP32-CAM `GND`.
+### 4. Zone 3: Traction (Raw Battery)
+*   ต่อสายไฟจากจุด **Battery (+) และ (-)** ที่บอร์ด Shield วิ่งตรงเข้าช่อง **12V/GND** ของ L298N
+*   **ควบคุม:** รับคำสั่งความเร็ว (PWM) จาก **Arduino Nano**
+*   *แนะนำ:* ขนานคาปาซิเตอร์ 1000uF ที่ทางเข้า L298N เพื่อกรองสัญญาณรบกวนจังหวะมอเตอร์ออกตัว
 
 ### 4. Zone 3: Motor Power (L298N)
 Motors take raw battery power.
@@ -112,16 +81,38 @@ Motors take raw battery power.
 ## ⚠️ Important Safety Checks
 1.  **Common Ground:** ensure the negative (`-`) terminal of the battery connects to the GND of **ALL** modules (H969, LM2596, L298N, ESP32, etc.).
 2.  **Wire Thickness:** Use thicker wires (20-18 AWG) for the **Battery -> L298N** path, as motors draw high current.
-3.  **Voltage Check:** Use a multimeter to verify 5V outputs on H969 and LM2596 before connecting expensive microcontrollers.
+3.  **Voltage Check:** Use a multimeter to verify 5V and 3.3V outputs on the Battery Shield before connecting expensive microcontrollers.
+4.  **Capacitor Buffer (Lowers Brownouts):** หากมอเตอร์ออกตัวแล้วกล้องดับ หรือ ESP32 รีบูต ให้ขนานคาปาซิเตอร์ (Electrolytic Capacitor) เข้าที่ขั้วไฟเข้า:
+    *   **Motor Rail:** 1000uF 25V (ช่วยกรองสัญญาณรบกวนจากมอเตอร์และลดไฟกระชาก)
+    *   **ESP32-CAM (5V/GND):** 470uF 10V (ช่วยสำรองไฟชั่วขณะเมื่อไฟตกตอนมอเตอร์ออกตัว)
 
 ---
 
-## 📝 Part List
+## ️ Reverse Polarity Protection (Diode)
+หากต้องการต่อไดโอดป้องกันไฟย้อนกลับระหว่างทางเชื่อมต่อ:
+*   **เบอร์ที่แนะนำ:** **1N4001** (มีในคลังแสง) สำหรับกระแสไม่เกิน 1A หรือ **1N5408** (3A) สำหรับไฟหลัก
+*   **การหันขั้ว:** 
+    *   **แถบสีเงิน (Cathode):** หันออกไปทาง **อุปกรณ์ (Load)**
+    *   **ฝั่งสีดำ (Anode):** ต่อกับ **ขั้วบวกของแบตเตอรี่ (+)**
+    *   **Current Flow:** Battery (+) → [Anode] Diode [Cathode (Silver Band)] → System (+)
+
+```mermaid
+graph LR
+    BAT[Battery +] ---|Black Side| D{Diode} ---|Silver Band| LOAD[V8 Shield / Buck Input]
+```
+
+> [!CAUTION]
+> **ห้ามต่อไดโอดหลังออกจาก Shield/Buck:**
+> ห้ามนำไดโอไปต่อแทรกระหว่าง "ขาออกของ Shield (3.3V/5V)" กับ "ขาเข้าของบอร์ด ESP32/STM32" โดยเด็ดขาด เพราะแรงดันจะดรอปลง 0.7V ทำให้บอร์ดทำงานไม่ได้หรือรวนครับ (โดยเฉพาะสาย 3.3V จะเหลือแค่ 2.6V ซึ่งไม่พอเปิดเครื่อง)
+
+---
+
+## �📝 Part List
 | Component | Function | Status |
 | :--- | :--- | :--- |
 | **3x 18650 Batteries** | Main Power Source | ✅ Ready |
 | **Battery Holder (3-slot)** | Holds batteries in parallel | ✅ Ready |
-| **H969-U (Green Board)** | 5V Boost for Brain | ✅ Ready |
-| **LM2596 (Blue Board)** | 5V Buck/Boost for Camera | 🛒 Need |
+| **Dual 18650 Shield V8** | 5V 3A / 3.3V 1A Hub | ✅ Ready |
+| **LM2596 (Blue Board)** | 5V Buck for Camera | 🛒 Need |
 | **SPST Switch** | Master ON/OFF | ✅ Ready |
 | **Wires (Red/Black)** | Power distribution | ✅ Ready |

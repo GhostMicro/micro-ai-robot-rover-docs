@@ -25,71 +25,57 @@ debug_server =
     scripts/target/stm32f1x.cfg
 ```
 
-### main.cpp
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Arduino.h>
+#include <Wire.h>
 
-```cpp
-void setup() {
-    Serial.begin(115200);
-}
+HardwareSerial Serial2(PA3, PA2); // To Nano
+HardwareSerial Serial3(PB11, PB10); // From ESP32
+Adafruit_MPU6050 mpu;
 
-void loop() {
-    Serial.println("Hello World");
-    delay(1000);
-}
-```#include <Arduino.h>
-
-// สร้าง Serial2 สำหรับคุยกับ Arduino Mega
-HardwareSerial Serial2(PA3, PA2); 
-
-struct __attribute__((packed)) Payload {
-    int8_t x;
-    int8_t y;
-    uint8_t btn;
+struct __attribute__((packed)) Telemetry {
+  uint8_t header1, header2; // 0xBB, 0xCC
+  uint16_t seq;
+  float ax, ay, az, gx, gy, gz, temp;
+  uint8_t i2c_status, checksum;
 };
 
-Payload remoteData;
-unsigned long lastRecvTime = 0; // สำหรับระบบ Failsafe
+void initMPU() {
+    Wire.beginTransmission(0x68);
+    Wire.write(0x6B); Wire.write(0x80); // Reset
+    Wire.endTransmission();
+    delay(500);
+    if (mpu.begin()) {
+        mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+        mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+    }
+}
 
 void setup() {
-    Serial1.begin(115200); // รับจาก ESP32
-    Serial2.begin(115200); // ส่งหา Mega
-    pinMode(PC13, OUTPUT);
+  Serial.begin(115200);
+  Serial2.begin(115200); Serial3.begin(9600);
+  Wire.begin(); Wire.setClock(50000);
+  initMPU();
 }
 
 void loop() {
-    // 1. รับข้อมูลจาก ESP32
-    if (Serial1.available() > 0) {
-        if (Serial1.read() == 0xAA) {
-            Serial1.readBytes((uint8_t*)&remoteData, sizeof(remoteData));
-            lastRecvTime = millis(); // อัปเดตเวลาที่ได้รับสัญญาณล่าสุด
-            
-            // 2. คำนวณ Mixer (ล้อซ้าย-ขวา) 
-            // สูตรพื้นฐาน: ซ้าย = Y+X, ขวา = Y-X
-            int leftSpeed = remoteData.y + remoteData.x;
-            int rightSpeed = remoteData.y - remoteData.x;
-
-            // Constrain ค่าให้อยู่ในกลุ่ม -100 ถึง 100
-            leftSpeed = constrain(leftSpeed, -100, 100);
-            rightSpeed = constrain(rightSpeed, -100, 100);
-
-            // 3. ส่งคำสั่งที่คำนวณเสร็จแล้วให้ Mega
-            // เราจะส่ง Header 0xFF นำหน้าเพื่อให้ Mega แยกแยะว่าเป็นคำสั่งล้อ
-            Serial2.write(0xFF); 
-            Serial2.write((int8_t)leftSpeed);
-            Serial2.write((int8_t)rightSpeed);
-            Serial2.write(remoteData.btn); // ส่งสถานะปุ่มไปด้วย
-            
-            digitalWrite(PC13, LOW); // ไฟติดเมื่อมีสัญญาณ
-        }
+  static uint32_t lastTelem = 0;
+  if (millis() - lastTelem > 100) {
+    lastTelem = millis();
+    sensors_event_t a, g, temp;
+    Telemetry t; memset(&t, 0, sizeof(t));
+    t.header1 = 0xBB; t.header2 = 0xCC;
+    
+    if (mpu.getEvent(&a, &g, &temp)) {
+      t.ax = a.acceleration.x; t.temp = temp.temperature;
+      if (t.ax > -150.0f && t.ax < 150.0f) { // Glitch Filter
+        // Calculate checksum and Serial3.write(t)
+      } else { initMPU(); }
     }
+  }
 
-    // 4. ระบบ Failsafe: ถ้าสัญญาณหายไปเกิน 500ms ให้หยุดรถ
-    if (millis() - lastRecvTime > 500) {
-        Serial2.write(0xFF); 
-        Serial2.write((int8_t)0); // สั่งล้อซ้ายหยุด
-        Serial2.write((int8_t)0); // สั่งล้อขวาหยุด
-        Serial2.write((int8_t)0); 
-        digitalWrite(PC13, HIGH); // ไฟดับเมื่อสัญญาณขาด
-    }
+  if (Serial3.available() >= 7) { // Read Payload from ESP32
+     // Differential Mixer -> Serial2.write to Nano
+  }
 }
-```

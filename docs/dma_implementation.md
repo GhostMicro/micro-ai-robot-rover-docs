@@ -18,7 +18,7 @@
 
 ### Option 1: Replace main.cpp (Recommended)
 ```bash
-cd /media/devg/Micro-SV7/GitHub/GhostMicro/micro-ai-robot-rover/firmware/src/stm32_brain
+cd /home/devg/Documents/PlatformIO/Projects/core-STM32F103C8T6/src
 cp main.cpp main_original.cpp  # Backup
 cp main_dma.cpp main.cpp        # Apply DMA version
 ```
