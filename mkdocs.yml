@@ -1,37 +1,90 @@
-site_name: Micro AI Robot Rover
+site_name: Ghost Micro Rover
 site_description: เอกสารโครงการหุ่นยนต์อัตโนมัติโมดูลาร์ (Modular Autonomous Rover)
+site_author: GhostMicro
+
 theme:
   name: material
+  language: th
   palette:
-    scheme: slate
-    primary: indigo
-    accent: cyan
-  font:
-    text: Sarabun
-    code: Roboto Mono
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang: th
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
 
 nav:
-  - หน้าแรก (Home): index.md
-  - ภาพรวมและฮาร์ดแวร์ (Overview): overview.md
-  - คู่มือการต่อสาย - Wiring Guide (v4): wiring_guide_v4.md
-  - Bottom Layer (Drive): bottom_layer_wiring.md
-  - Component Inventory: inventory.md
-  - DMA Performance Guide: dma_guide.md
-  - DMA Implementation: dma_implementation.md
-  - Architecture v4.0 (3-Tier): architecture_v4.md
-  - Wiring Guide v4.0 (Complete): wiring_v4_complete.md
-  - Power Circuit Diagram: power_circuit_v4.md
-  - Power Budget Analysis: power_budget_v4.md
-  - ESP32 Commander Setup: esp32_commander_setup.md
-  - Camera Recording Options: camera_recording_options.md
-  - Camera Control Architecture: camera_control_architecture.md
-  - ESP32-CAM Programming Guide: esp32cam_programming.md
-  - Dashboard Camera Integration: dashboard_camera_guide.md
-  - Transmitter Hardware (รีโมท): transmitter_setup.md
-  - การสร้างสมองและโค้ด (Brain Setup): brain_setup.md
-  - การสร้างร่างกาย (Body Setup): body_assembly.md
-  - Next.js Dashboard Guide: dashboard_guide.md
-  - มาตรฐานหุ่นยนต์อุตสาหกรรม (Industrial Standards): industrial_standards.md
-  - คู่มือออกแบบวงจร (Fritzing Setup): fritzing_setup.md
-  - สรุปและกิตติกรรมประกาศ (Summary): summary.md
-  - อ้างอิงและผู้สนับสนุน (References): references.md
+  - หน้าแรก: index.md
+  - 🚀 Ghost Micro V5 (Navigator):
+      - สถาปัตยกรรม (Architecture): v5/architecture.md
+      - การเชื่อมต่อ (Wiring Guide): v5/wiring_guide.md
+      - มาตรฐานพินและการสื่อสาร: v5/standards_pins_comms.md
+      - มาตรฐานอุตสาหกรรม: v5/industrial_standards.md
+  - 🛠️ ระบบโมดูลาร์ (V5 Standard):
+      - "Module: Header (Navigator)": v5/module_header.md
+      - "Module: Body (Actuator)": v5/module_body.md
+      - "Module: Vision (Eye)": v5/module_vision.md
+      - "Module: Transmitter (Control)": v5/module_transmitter.md
+  - 🔍 ข้อมูลเชิงลึก (Deep Dive):
+      - Pixhawk & ArduRover: v5/pixhawk.md
+      - สถาปัตยกรรมแบบแยกส่วน: v5/modular_architecture.md
+      - ระบบจ่ายไฟและการตรวจสอบ: about/summary.md
+  - ⚔️ คลังแสงและทรัพยากร:
+      - รายการอุปกรณ์ (Arsenal): about/arsenal.md
+      - คู่มืออ้างอิง: about/reference_manual.md
+      - รายการอ้างอิง: about/references.md
+  - 📜 คลังข้อมูลเก่า (Archive):
+      - ประวัติการค้นคว้า: archive/history.md
+      - "Version 4 (Legacy)":
+          - Overview: archive/v4/overview.md
+          - Architecture V4: archive/v4/architecture_v4.md
+          - Wiring Guide V4: archive/v4/wiring_guide_v4.md
+          - Wiring V4 Complete: archive/v4/wiring_v4_complete.md
+          - Power Circuit V4: archive/v4/power_circuit_v4.md
+          - Power Budget V4: archive/v4/power_budget_v4.md
+          - Board ESP32 Receiver: archive/v4/board-esp32-core-reciver.md
+          - Board ESP32 Camera: archive/v4/board-esp32-module-camera.md
+          - Board ESP32 Transmitter: archive/v4/board-esp32-transmitter.md
+          - Board Nano Body Driver: archive/v4/board-nano-body-driver-rover.md
+          - Brain Setup: archive/v4/brain_setup.md
+          - Body Setup: archive/v4/body_assembly.md
+          - Dashboard Guide: archive/v4/dashboard_guide.md
+          - Fritzing Setup: archive/v4/fritzing_setup.md
+          - Inventory: archive/v4/inventory.md
+      - "Version 3":
+          - "Wiring Guide V3": archive/v3/wiring_guide_v3.md
+          - "MODULE 3 Nano Body": archive/v3/module_3_nano_body.md
+      - "Version 2":
+          - Wiring Guide V2: archive/v2/wiring_guide_v2.md
+      - "Version 1":
+          - Wiring Guide V1: archive/v1/wiring_guide_v1.md
