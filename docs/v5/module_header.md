@@ -5,6 +5,7 @@
 ## 🎯 เป้าหมาย (Objectives)
 - รับข้อมูลจาก Transmitter (ผ่าน ESP-NOW) และ Dashboard (ผ่าน WebSocket)
 - ประมวลผลตรรกะระดับสูง (Higher-Level Logic) เช่น การคำนวณทิศทางหรือ Mission Path
+- ประสานงานกับ **Autonomous Hub** เพื่อรักษาขอบเขตการทำงาน (Area Boundary)
 - ส่งต่อคำสั่งไปยังส่วน Body via Serial
 
 ## 🛠️ Hardware Requirements
@@ -15,6 +16,7 @@
 - **Intelligence Role:** เป็น "หน่วยตัดสินใจกลาง" (Central Intelligence)
     - วิเคราะห์เสียง/แสง -> สั่งเปิดไฟ Body
     - ตรวจพบเหตุการณ์ผิดปกติ -> สั่ง ESP32-CAM ให้เริ่มบันทึกลง SD Card
+- **Autonomous Hub Mode:** ทำหน้าที่เป็น Beacon กระจายพื้นที่ปลอดภัยให้กับหุ่นยนต์หลายตัวผ่าน ESP-NOW
 - **Expansion Port:** 8-pin Header สำหรับเสียบ AI Modules
 
 ## 📡 Communication Rules
@@ -23,14 +25,66 @@
 - **Outbound:** UART (STM32 -> Nano Body) @ 57600 bps
 
 ## 📍 Reserved Pins (STM32F103)
-| Function | STM32 Pin | Note |
-| :--- | :--- | :--- |
-| **UART1 (Bridge)** | PA9 (TX), PA10 (RX) | คุยกับ ESP32 |
-| **UART2 (Body)** | PA2 (TX), PA3 (RX) | คุยกับ Arduino Nano |
-| **Light Sensor (LDR)** | PA0 (ADC) | วัดความเข้มแสง |
-| **Sound Sensor** | PA1 (ADC/Digital) | ตรวจจับเสียงผิดปกติ |
-| **I2C Bus** | PB6 (SCL), PB7 (SDA) | สำหรับ Upgrade Modules |
-| **Status LED** | PC13 | สำหรับ Debug |
+| Function               | STM32 Pin            | Note                 |
+| :--------------------- | :------------------- | :------------------- |
+| **UART1 (Bridge)**     | PA9 (TX), PA10 (RX)  | คุยกับ ESP32           |
+| **UART2 (Body)**       | PA2 (TX), PA3 (RX)   | คุยกับ Arduino Nano    |
+| **Light Sensor (LDR)** | PA0 (ADC)            | วัดความเข้มแสง         |
+| **Sound Sensor**       | PA1 (ADC/Digital)    | ตรวจจับเสียงผิดปกติ      |
+| **I2C Bus**            | PB6 (SCL), PB7 (SDA) | สำหรับ Upgrade Modules |
+| **Status LED**         | PC13                 | สำหรับ Debug           |
+
+---
+
+## 💻 Latest Firmware: ESP32 MAVLink Gateway
+
+โค้ดนี้ใช้สำหรับ ESP32 (Header) เพื่อทำหน้าที่เป็นสะพานเชื่อมต่อระหว่าง WiFi (Dashboard) และ Pixhawk (TELEM1)
+
+```cpp
+#include <HardwareSerial.h>
+
+// กำหนดพอร์ต Serial สำหรับคุยกับ Pixhawk (TELEM1)
+HardwareSerial PixSerial(1); 
+
+void setup() {
+  Serial.begin(115200); // สำหรับ Debug และเชื่อมต่อ Dashboard ผ่าน USB (ถ้าจำเป็น)
+  
+  // Pixhawk TELEM1 ปกติใช้ 57600 Baud
+  PixSerial.begin(57600, SERIAL_8N1, 34, 27); 
+  
+  Serial.println("Ghost Micro V5: Header Gateway Started");
+}
+
+void loop() {
+  // รับข้อมูลจาก Pixhawk -> ส่งออก Dashboard (Serial/USB)
+  while (PixSerial.available() > 0) {
+    uint8_t c = PixSerial.read();
+    Serial.write(c); 
+  }
+
+  // รับข้อมูลจาก Dashboard -> ส่งเข้า Pixhawk
+  while (Serial.available() > 0) {
+    uint8_t c = Serial.read();
+    PixSerial.write(c);
+  }
+
+  // --- Hub Heartbeat (Broadcast every 1s) ---
+  static unsigned long lastBeacon = 0;
+  if (millis() - lastBeacon > 1000) {
+    lastBeacon = millis();
+    // Monitor Hub Signal (Beacon)
+    checkHubConnection();
+  }
+}
+
+void checkHubConnection() {
+  // Logic สำหรับตรวจจับสัญญาณ 0xBB จาก Hub
+  // หากสัญญาณหายไป -> ส่งคำสั่ง Auto RTH ให้ Body
+  Serial.println("Monitoring Hub Connection...");
+}
+```
+
+---
 
 ---
 

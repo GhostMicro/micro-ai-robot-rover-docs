@@ -20,12 +20,52 @@
 - **Network Role:** ทำงานร่วมกับ WiFi Gateway ของ Header
 
 ## 📍 Reserved Pins (ESP32-CAM)
-| Function | GPIO Pin | Note |
-| :--- | :--- | :--- |
-| **Flash LED** | 4 | ไฟส่องสว่าง / สถานะ |
-| **UART TX** | 1 | ส่งผลการวิเคราะห์ AI กลับสมอง |
-| **UART RX** | 3 | **Trigger In:** รับคำสั่งบันทึกภาพจาก Header |
-| **I2C Status** | - | *มักไม่ได้ใช้พินภายนอก* |
+| Function       | GPIO Pin | Note                                   |
+| :------------- | :------- | :------------------------------------- |
+| **Flash LED**  | 4        | ไฟส่องสว่าง / สถานะ                      |
+| **UART TX**    | 1        | ส่งผลการวิเคราะห์ AI กลับสมอง              |
+| **UART RX**    | 3        | **Trigger In:** รับคำสั่งบันทึกภาพจาก Header |
+| **I2C Status** | -        | *มักไม่ได้ใช้พินภายนอก*                     |
+
+---
+
+## 💻 Latest Firmware: ESP32-CAM AI Eye
+
+โค้ดพื้นฐานสำหรับสตรีมวิดีโอผ่าน WiFi และบันทึกภาพลง SD Card เมื่อได้รับคำสั่ง
+
+```cpp
+#include "esp_camera.h"
+#include <WiFi.h>
+
+const char* ssid = "GhostMicro_V5";
+void setup() {
+  Serial.begin(115200);
+  // Camera Config (AI-Thinker)
+  camera_config_t config;
+  config.ledc_channel = LEDC_CHANNEL_0;
+  // ... (Full Pin Map based on Standards)
+  config.frame_size = FRAMESIZE_VGA;
+  config.pixel_format = PIXFORMAT_JPEG;
+  
+  esp_camera_init(&config);
+  
+  WiFi.softAP(ssid);
+  // Start Stream Server on Port 81
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();
+    if (cmd == 'C') { // Capture Command
+      camera_fb_t * fb = esp_camera_fb_get();
+      // Save to SD Card Logic...
+      esp_camera_fb_return(fb);
+    }
+  }
+}
+```
+
+---
 
 ---
 

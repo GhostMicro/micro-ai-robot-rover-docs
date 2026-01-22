@@ -52,6 +52,7 @@ nav:
       - มาตรฐานอุตสาหกรรม: v5/industrial_standards.md
   - 🛠️ ระบบโมดูลาร์ (V5 Standard):
       - "Module: Header (Navigator)": v5/module_header.md
+      - "Module: Hub (Autonomous Anchor)": v5/module_hub.md
       - "Module: Body (Actuator)": v5/module_body.md
       - "Module: Vision (Eye)": v5/module_vision.md
       - "Module: Transmitter (Control)": v5/module_transmitter.md

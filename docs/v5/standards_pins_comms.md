@@ -7,12 +7,12 @@
 ## 📡 1. Communication Protocols (ข้อกำหนดการสื่อสาร)
 
 ### A. Intra-Modular (ระหว่างบอร์ด)
-| Connection | Protocol | Baud Rate | Config |
-| :--- | :--- | :--- | :--- |
-| **ESP32 <-> STM32** | UART | 115200 | 8N1 |
-| **STM32 <-> Nano** | UART | 57600 | 8N1 |
-| **Vision <-> Dashboard** | MJPEG/WebRTC | WiFi | Port 81/80 |
-| **I2C Devices** | I2C | 400kHz | Fast Mode |
+| Connection               | Protocol     | Baud Rate | Config     |
+| :----------------------- | :----------- | :-------- | :--------- |
+| **ESP32 <-> STM32**      | UART         | 115200    | 8N1        |
+| **STM32 <-> Nano**       | UART         | 57600     | 8N1        |
+| **Vision <-> Dashboard** | MJPEG/WebRTC | WiFi      | Port 81/80 |
+| **I2C Devices**          | I2C          | 400kHz    | Fast Mode  |
 
 ### B. Wireless (ไร้สาย)
 - **Transmitter -> Header:** ESP-NOW (Ch 1, 2.4GHz)
@@ -43,6 +43,7 @@ struct BodyControl {
   byte signature = 0xAF; // ลายเซ็นข้อมูล
   int8_t throttle;      // -100 ถึง 100
   int8_t steering;      // -100 ถึง 100
+  byte command_flags;   // Bit 0: RTH, Bit 1: Area Patrol, Bit 2: Hub Link
   byte illumination;    // 0=Off, 1=On (Searchlight)
   byte sos_signal;      // 0=Normal, 1=SOS Active (Buzzer + Strobe)
   byte lightsFX;        // Bitmask สำหรับไฟเท่ๆ (RGB/Signal)
@@ -66,13 +67,13 @@ struct VisionDetection {
 
 เราแบ่งหน้าที่การตรวจสอบพลังงาน (Battery Monitoring) ดังนี้:
 
-| Target | Responsible Module | Detection Method |
-| :--- | :--- | :--- |
-| **Main Battery (V5)** | **Pixhawk (Header)** | Pixhawk Power Module (Voltage/Current) |
-| **Motor Battery (>5V)** | **Arduino Nano (Body)** | Voltage Divider (Analog Pin) |
-| | - **Movement & Power:** ควบคุมมอเตอร์ (Movement) และระบบไฟส่องสว่างกำลังสูง (High-Intensity LED / Searchlight) | |
-| | - **ตรวจจับสิ่งกีดขวาง (Obstacle Avoidance):** จัดการสัญชาตญาณความปลอดภัย | |
-| **Transmitter Battery** | **ESP32 (Transmitter)** | Internal ADC (Voltage Divider) |
+| Target                  | Responsible Module                                                                                      | Detection Method                       |
+| :---------------------- | :------------------------------------------------------------------------------------------------------ | :------------------------------------- |
+| **Main Battery (V5)**   | **Pixhawk (Header)**                                                                                    | Pixhawk Power Module (Voltage/Current) |
+| **Motor Battery (>5V)** | **Arduino Nano (Body)**                                                                                 | Voltage Divider (Analog Pin)           |
+|                         | - **Movement & Power:** ควบคุมมอเตอร์ (Movement) และระบบไฟส่องสว่างกำลังสูง (High-Intensity LED / Searchlight) |                                        |
+|                         | - **ตรวจจับสิ่งกีดขวาง (Obstacle Avoidance):** จัดการสัญชาตญาณความปลอดภัย                                      |                                        |
+| **Transmitter Battery** | **ESP32 (Transmitter)**                                                                                 | Internal ADC (Voltage Divider)         |
 
 ### กฎการรายงานผล:
 - **Body** ต้องส่งค่าแรงดันแบตเตอรี่มอเตอร์ให้ **Header** ทุกๆ 500ms
