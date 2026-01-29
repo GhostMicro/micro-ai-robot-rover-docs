@@ -9,10 +9,15 @@
 ### A. Intra-Modular (ระหว่างบอร์ด)
 | Connection               | Protocol     | Baud Rate | Config     |
 | :----------------------- | :----------- | :-------- | :--------- |
-| **ESP32 <-> STM32**      | UART         | 115200    | 8N1        |
-| **STM32 <-> Nano**       | UART         | 57600     | 8N1        |
+| Connection               | Protocol     | Baud Rate | Config     |
+| :----------------------- | :----------- | :-------- | :--------- |
+| **ESP32 <-> AT32 (THAP)**| UART         | 115200    | 8N1        |
+| **AT32 (THAP) <-> Nano** | UART (USART3)| 57600     | 8N1        |
 | **Vision <-> Dashboard** | MJPEG/WebRTC | WiFi      | Port 81/80 |
-| **I2C Devices**          | I2C          | 400kHz    | Fast Mode  |
+| **I2C Devices**          | I2C          | 400kHz*   | Fast Mode  |
+
+> [!NOTE]
+> *I2C 400kHz requires THAP Firmware v1.1+ with `HAL_I2C_MAX_CLOCK` set to 400000.
 
 ### B. Wireless (ไร้สาย)
 - **Transmitter -> Header:** ESP-NOW (Ch 1, 2.4GHz)
@@ -69,7 +74,9 @@ struct VisionDetection {
 
 | Target                  | Responsible Module                                                                                      | Detection Method                       |
 | :---------------------- | :------------------------------------------------------------------------------------------------------ | :------------------------------------- |
-| **Main Battery (V5)**   | **Pixhawk (Header)**                                                                                    | Pixhawk Power Module (Voltage/Current) |
+| Target                  | Responsible Module                                                                                      | Detection Method                       |
+| :---------------------- | :------------------------------------------------------------------------------------------------------ | :------------------------------------- |
+| **Main Battery (V5)**   | **AT32 (THAP Board)**                                                                                   | Power Module (Voltage/Current)        |
 | **Motor Battery (>5V)** | **Arduino Nano (Body)**                                                                                 | Voltage Divider (Analog Pin)           |
 |                         | - **Movement & Power:** ควบคุมมอเตอร์ (Movement) และระบบไฟส่องสว่างกำลังสูง (High-Intensity LED / Searchlight) |                                        |
 |                         | - **ตรวจจับสิ่งกีดขวาง (Obstacle Avoidance):** จัดการสัญชาตญาณความปลอดภัย                                      |                                        |

@@ -83,6 +83,7 @@ This document serves as a database of available components to ensure future desi
 | **HW-070 Mini PWM** | 1 | Micro PWM Driver | Compact motor/LED control. |
 | **DFPlayer Mini** | 🛒 | MP3/Audio Player | **V4.1:** Speech/Playing clips from SD Card. |
 | **Speaker (8Ω 3W)** | 🛒 | Mini Speaker | Output for DFPlayer. |
+| **Passive Buzzer** | 5 | 5V/3.3V Buzzer | Audio feedback, alarms, startup sounds. |
 
 ## 📟 Human Interface & Displays
 | Component | Qty | Description | Application |
@@ -113,6 +114,8 @@ This document serves as a database of available components to ensure future desi
 | **Potentiometers** | VR504 (500kΩ) | Sensitivity/Analog adjustment. |
 | **Capacitors** | Ceramic, Electrolytic | Power filtering, timing circuits. |
 | **Resistors** | 2W - 4W, Standard | Current limiting, pull-ups/downs. |
+| **Resistor 2.2KΩ** | 90 | Standard 1/4W | Pull-up/down, gain control. |
+| **Resistor 4.7KΩ** | 90 | Standard 1/4W | I2C pull-ups, sensor dividers. |
 
 ---
 **📝 Agent Note:** This inventory is updated frequently. Prioritize using existing modules before suggesting new purchases.
